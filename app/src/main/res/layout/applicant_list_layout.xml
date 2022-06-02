@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="8dp">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:background="@drawable/applc_list_layout_design"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/applic_ll_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Applicant name"
+            android:textSize="22sp"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/applic_ll_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="applicant number"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/applic_ll_bank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bank name"
+                android:textSize="16sp"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/applic_ll_date"/>
+            <TextView
+                android:id="@+id/applic_ll_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_marginEnd="10dp"
+                android:text="Completed Date and time"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.cardview.widget.CardView>

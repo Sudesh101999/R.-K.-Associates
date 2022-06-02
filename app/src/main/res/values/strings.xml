@@ -1,0 +1,217 @@
+<resources>
+    <string name="app_name">R.K Associates</string>
+
+    <string-array name="new_temp_sp">
+        <item>--Select--</item>
+    </string-array>
+    <string-array name="user_type_sp">
+        <item>--Select--</item>
+        <item>Document Picker</item>
+        <item>Document Verifier</item>
+    </string-array>
+    <string-array name="gender_sp">
+        <item>--Select--</item>
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="members_sp">
+        <item>--Select--</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+    </string-array>
+    <string-array name="num_floor_sp">
+        <item>--Select--</item>
+        <item>1 Floor</item>
+        <item>2 Floor</item>
+        <item>3 Floor</item>
+        <item>4 Floor</item>
+        <item>5 Floor</item>
+        <item>6 Floor</item>
+        <item>7 Floor</item>
+        <item>8 Floor</item>
+        <item>9 Floor</item>
+        <item>10 Floor</item>
+        <item>11 Floor</item>
+        <item>12 Floor</item>
+        <item>13 Floor</item>
+        <item>14 Floor</item>
+        <item>15 Floor</item>
+        <item>16 Floor</item>
+        <item>17 Floor</item>
+        <item>18 Floor</item>
+        <item>19 Floor</item>
+        <item>20 Floor</item>
+        <item>21 Floor</item>
+        <item>22 Floor</item>
+        <item>23 Floor</item>
+        <item>24 Floor</item>
+        <item>25 Floor</item>
+        <item>26 Floor</item>
+        <item>27 Floor</item>
+        <item>28 Floor</item>
+        <item>29 Floor</item>
+        <item>30 Floor</item>
+    </string-array>
+    <string-array name="duration_stay_sp">
+        <item>--Select--</item>
+        <item>1 Year</item>
+        <item>2 Year</item>
+        <item>3 Year</item>
+        <item>4 Year</item>
+        <item>5 Year</item>
+        <item>6 Year</item>
+        <item>7 Year</item>
+        <item>8 Year</item>
+        <item>9 Year</item>
+        <item>10 Year</item>
+        <item>11 Year</item>
+        <item>12 Year</item>
+        <item>13 Year</item>
+        <item>14 Year</item>
+        <item>15 Year</item>
+        <item>16 Year</item>
+        <item>17 Year</item>
+        <item>18 Year</item>
+        <item>19 Year</item>
+        <item>20 Year</item>
+        <item>21 Year</item>
+        <item>22 Year</item>
+        <item>23 Year</item>
+        <item>24 Year</item>
+        <item>25 Year</item>
+        <item>26 Year</item>
+        <item>27 Year</item>
+        <item>28 Year</item>
+        <item>29 Year</item>
+        <item>30 Year</item>
+    </string-array>
+
+    <string-array name="nature_of_business_sp">
+        <item>--Select--</item>
+        <item>Employment Trading</item>
+        <item>Manufacturing</item>
+        <item>Professionals</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="premises_busin_details_sp">
+        <item>--Select--</item>
+        <item>Owned</item>
+        <item>Rented</item>
+        <item>Pagadi</item>
+    </string-array>
+    <string-array name="organisation_type_sp">
+        <item>--Select--</item>
+        <item>Proprietorship</item>
+        <item>Partnership</item>
+        <item>LLP</item>
+        <item>private</item>
+        <item>private LTD</item>
+    </string-array>
+    <string-array name="product_type_sp">
+        <item>--Select--</item>
+        <item>Home Loan</item>
+        <item>Car Loan</item>
+        <item>mortgage</item>
+        <item>BSA</item>
+        <item>Education Loan</item>
+        <item>TopUp Loan</item>
+    </string-array>
+    <string-array name="property_status_sp">
+        <item>--Select--</item>
+        <item>Own</item>
+        <item>Rental</item>
+        <item>Pagadi</item>
+    </string-array>
+    <string-array name="mortgage_type_sp">
+        <item>--Select--</item>
+        <item>Land</item>
+        <item>Machinery</item>
+        <item>stock</item>
+    </string-array>
+    <string-array name="accessibility_sp">
+        <item>--Select--</item>
+        <item>Easy</item>
+        <item>Hard</item>
+        <item>Difficult</item>
+        <item>Very Difficult</item>
+        <item>Untraceable</item>
+    </string-array>
+    <string-array name="type_of_unit_sp">
+        <item>--Select--</item>
+        <item>Flat</item>
+        <item>Home</item>
+        <item>Bungalow</item>
+        <item>Room</item>
+    </string-array>
+    <string-array name="yes_no_sp">
+        <item>--Select--</item>
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    <string-array name="home_loan_yes_no_sp">
+        <item>--Select--</item>
+        <item>Yes</item>
+        <item>No</item>
+        <item>NA</item>
+    </string-array>
+    <string-array name="utility_bill_sp">
+        <item>--Select--</item>
+        <item>electricity Bill</item>
+        <item>MGL</item>
+    </string-array>
+    <string-array name="home_loan_utility_bill_sp">
+        <item>--Select--</item>
+        <item>electricity Bill</item>
+        <item>MGL</item>
+        <item>NA</item>
+    </string-array>
+    <string-array name="work_sp">
+        <item>--Select--</item>
+        <item>Business</item>
+        <item>Salaried</item>
+        <item>House ..</item>
+    </string-array>
+    <string-array name="locality_sp">
+        <item>--Select--</item>
+        <item>Posh</item>
+        <item>Upper Middle class</item>
+        <item>Middle class</item>
+        <item>Slum Area</item>
+    </string-array>
+    <string-array name="home_loan_locality_sp">
+        <item>--Select--</item>
+        <item>Posh</item>
+        <item>Upper Middle class</item>
+        <item>Middle class</item>
+        <item>Slum Area</item>
+        <item>NA</item>
+    </string-array>
+    <string-array name="dimension_sp">
+        <item>--Select--</item>
+        <item>1 BHK</item>
+        <item>2 BHK</item>
+        <item>3 BHK</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

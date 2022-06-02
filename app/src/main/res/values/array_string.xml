@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="commen_of_business_sp">
+        <item>--Select--</item>
+        <item>1 Year</item>
+        <item>2 Year</item>
+        <item>3 Year</item>
+        <item>4 Year</item>
+        <item>5 Year</item>
+        <item>6 Year</item>
+        <item>7 Year</item>
+        <item>8 Year</item>
+        <item>9 Year</item>
+        <item>10 Year</item>
+        <item>11 Year</item>
+        <item>12 Year</item>
+        <item>13 Year</item>
+        <item>14 Year</item>
+        <item>15 Year</item>
+        <item>16 Year</item>
+        <item>17 Year</item>
+        <item>18 Year</item>
+        <item>19 Year</item>
+        <item>20 Year</item>
+        <item>21 Year</item>
+        <item>22 Year</item>
+        <item>23 Year</item>
+        <item>24 Year</item>
+        <item>25 Year</item>
+        <item>26 Year</item>
+        <item>27 Year</item>
+        <item>28 Year</item>
+        <item>29 Year</item>
+        <item>30 Year</item>
+        <item>31 Year</item>
+        <item>32 Year</item>
+        <item>33 Year</item>
+        <item>34 Year</item>
+        <item>35 Year</item>
+        <item>36 Year</item>
+        <item>37 Year</item>
+        <item>38 Year</item>
+        <item>39 Year</item>
+        <item>40 Year</item>
+        <item>41 Year</item>
+        <item>42 Year</item>
+        <item>43 Year</item>
+        <item>44 Year</item>
+        <item>45 Year</item>
+        <item>46 Year</item>
+        <item>47 Year</item>
+        <item>48 Year</item>
+        <item>49 Year</item>
+        <item>40 Year</item>
+        <item>41 Year</item>
+        <item>42 Year</item>
+        <item>43 Year</item>
+        <item>44 Year</item>
+        <item>45 Year</item>
+        <item>46 Year</item>
+        <item>47 Year</item>
+        <item>48 Year</item>
+        <item>49 Year</item>
+        <item>50 Year</item>
+    </string-array>
+</resources>

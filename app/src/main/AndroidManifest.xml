@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.rkassociates">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="ANDROID.PERMISSION.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.RKAssociates"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".HistoryList.HistoryListPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminClass.AdminPage"
+            android:exported="false" />
+        <activity
+            android:name=".UploadAppliDoc.Pages.DealerCarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadAppliDoc.Pages.UploadImagesPage.UploadImagesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadAppliDoc.Pages.AssetsVerifPage.AssetsVerifActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadAppliDoc.Pages.DetailItrPage.DetailsOfITRActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadAppliDoc.Pages.CurrentResidPropertyPage.CurrentResidPropActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadAppliDoc.Pages.ItrVerifPage.ItrKycVerifActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadAppliDoc.Pages.ProfilePage.ProfilePageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadAppliDoc.Pages.RegisteredPage.RegisteredPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadAppliDoc.DocumentationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DocPicker.ApplicantListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadAppliDoc.Pages.CurrentResidenceVerifPage.CurrentResidenceVerifActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadAppliDoc.Pages.BusinessVerifPage.BusinessVerifActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadAppliDoc.Pages.TeleVerifPage.TeleVerifOfReferActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DocPicker.DocPickerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Auth.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+    </application>
+
+</manifest>

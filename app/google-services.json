@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "632356420460",
+    "project_id": "rkassociates-64477",
+    "storage_bucket": "rkassociates-64477.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632356420460:android:40f97f458eaa8cd6781149",
+        "android_client_info": {
+          "package_name": "com.rkassociates"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "632356420460-16p3odut0mnm8k4btgg1d7g7i4haltll.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMgg8uJnvQBxXO7B897kAJs7ZtatU-SV8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "632356420460-16p3odut0mnm8k4btgg1d7g7i4haltll.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
