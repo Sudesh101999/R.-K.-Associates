@@ -4,12 +4,22 @@ import com.google.gson.annotations.SerializedName;
 
 public class RegisteredResponseRead {
 
-    @SerializedName("status")
-    private String status;
-    @SerializedName("message")
-    private String message;
     @SerializedName("data")
-    private RegistreredReadData data;
+    public registeredReadData result;
+
+    @SerializedName("status")
+    public String status;
+
+    @SerializedName("message")
+    public String message;
+
+    public registeredReadData getResult() {
+        return result;
+    }
+
+    public void setResult(registeredReadData result) {
+        this.result = result;
+    }
 
     public String getStatus() {
         return status;
@@ -25,13 +35,5 @@ public class RegisteredResponseRead {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public RegistreredReadData getData() {
-        return data;
-    }
-
-    public void setData(RegistreredReadData data) {
-        this.data = data;
     }
 }

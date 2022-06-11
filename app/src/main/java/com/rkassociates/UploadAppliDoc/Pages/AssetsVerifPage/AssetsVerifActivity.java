@@ -27,10 +27,15 @@ import androidx.cardview.widget.CardView;
 import com.google.android.material.snackbar.Snackbar;
 import com.rkassociates.Common.ApiClient;
 import com.rkassociates.R;
+import com.rkassociates.SharedPref.SharedPrefApplicantInfo;
 import com.rkassociates.SharedPref.SharedPrefAuth;
 import com.rkassociates.SharedPref.SharedPrefDocuComplete;
 import com.rkassociates.UploadAppliDoc.Pages.AssetsVerifPage.ApiCalls.AssetsVerifInterface;
 import com.rkassociates.UploadAppliDoc.Pages.AssetsVerifPage.ApiCalls.AssetsVerifResponse;
+import com.rkassociates.UploadAppliDoc.Pages.AssetsVerifPage.ApiCalls.ReadData.AssetsReadResponse;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,6 +59,8 @@ public class AssetsVerifActivity extends AppCompatActivity {
     private CardView homeTypeLayout, carTypeLayout, mortgageTypeLayout;
     //assets verif
 
+    String productTypeStr = "";
+
     //Home Loan
     private ImageView compressHomeIv;
     private LinearLayout homeLL;
@@ -76,7 +83,7 @@ public class AssetsVerifActivity extends AppCompatActivity {
 
     //mortgage loan
     private Spinner mortgageTypeSp;
-    private LinearLayout loanLayout, machineryLayout, stockLayout;
+    private LinearLayout landLayout, machineryLayout, stockLayout;
     private EditText landAreaEt, landOwnershipEt, machineryTypeEt, stockRawMaterialEt, stockFinishWoodEt;
     //mortgage loan
 
@@ -84,7 +91,7 @@ public class AssetsVerifActivity extends AppCompatActivity {
     private RelativeLayout assetsRlSubmit;
 
     String executiveId, aplcId;
-    private String activityFor,addDataIdIntentStr;
+    private String activityFor, addDataIdIntentStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,11 +104,16 @@ public class AssetsVerifActivity extends AppCompatActivity {
         if (extras != null) {
             activityFor = extras.getString("activityFor");
             //The key argument here must match that used in the other activity
-            addDataIdIntentStr= extras.getString("addDataIdIntentStr");
+            addDataIdIntentStr = extras.getString("addDataIdIntentStr");
 
             if (activityFor.equals("Pending")) {
-                Log.d("AddDataId",addDataIdIntentStr);
+                Log.d("AddDataId", addDataIdIntentStr);
+                String aplcNameIntentStr = extras.getString("aplcNameIntentStr");
+                aplcNameEt.setText(aplcNameIntentStr);
                 getDataFromDatabase();
+            } else if (activityFor.equals("newData")) {
+                String aplcName = SharedPrefApplicantInfo.getInstance(getApplicationContext()).getAplcName(getApplicationContext());
+                aplcNameEt.setText(aplcName);
             }
         }
 
@@ -110,8 +122,291 @@ public class AssetsVerifActivity extends AppCompatActivity {
     }
 
     private void getDataFromDatabase() {
-//pending
 
+        progressdialog.show();
+
+        AssetsVerifInterface assetsVerifInterface = ApiClient.getRetrofitInstance().create(AssetsVerifInterface.class);
+
+        Call<AssetsReadResponse> call = assetsVerifInterface.readAssetsVerif(executiveId, addDataIdIntentStr);
+
+        call.enqueue(new Callback<AssetsReadResponse>() {
+            @Override
+            public void onResponse(Call<AssetsReadResponse> call, Response<AssetsReadResponse> response) {
+
+                try {
+                    if (response.body().getStatus().equals("success")) {
+                        Toast.makeText(AssetsVerifActivity.this, "Message: " + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                        setDataOfAssets(
+                                response.body().getData().getAssetsData().getAssetsVerificationId(),
+                                response.body().getData().getAssetsData().getExecutiveId(),
+                                response.body().getData().getAssetsData().getAddDataId(),
+                                response.body().getData().getAssetsData().getPersonMet(),
+                                response.body().getData().getAssetsData().getPhoneNumber(),
+                                response.body().getData().getAssetsData().getDocOfOwnership(),
+                                response.body().getData().getAssetsData().getMarginMoneyPayment(),
+                                response.body().getData().getAssetsData().getModeOfPayment(),
+                                response.body().getData().getAssetsData().getSellerAccVerified(),
+                                response.body().getData().getAssetsData().getBankCharge(),
+                                response.body().getData().getAssetsData().getnOCIssue(),
+                                response.body().getData().getAssetsData().getAgreementValue(),
+                                response.body().getData().getAssetsData().getStampDuty(),
+                                response.body().getData().getAssetsData().getRegistration(),
+                                response.body().getData().getAssetsData().getIndex(),
+                                response.body().getData().getAssetsData().getPancardNumber(),
+                                response.body().getData().getAssetsData().getProductType(),
+                                response.body().getData().getAssetsData().getProductTypeDetails(),
+                                response.body().getData().getAssetsData().getAssetsVerificationStatus(),
+                                response.body().getData().getAssetsData().getCreatedDate(),
+                                response.body().getData().getAssetsData().getvDate(),
+                                response.body().getData().getAssetsData().getvTime(),
+                                response.body().getData().getAssetsData().getApplicantName()
+                        );
+                    } else {
+                        snackBarMsg("Message: " + response.body().getMessage());
+                    }
+
+                    Log.d("InsertDataWithHome", "onResponse: " + response.body().getData());
+                } catch (Exception e) {
+                    Log.e("onResponse", "Exception: " + e.getMessage());
+                }
+                progressdialog.dismiss();
+
+            }
+
+            @Override
+            public void onFailure(Call<AssetsReadResponse> call, Throwable t) {
+
+                progressdialog.dismiss();
+                Log.e("InsertDataWithHome", "onFailure: " + t.getMessage());
+            }
+        });
+
+    }
+
+    private void setDataOfAssets(String assetsVerificationId, String executiveId, String addDataId, String personMet,
+                                 String phoneNumber, String docOfOwnership, String marginMoneyPayment, String modeOfPayment,
+                                 String sellerAccVerified, String bankCharge, String nocIssued, String agreementValue,
+                                 String stampDuty, String registration, String index, String pancardNumber,
+                                 String productType, String productTypeDetails, String assetsVerificationStatus,
+                                 String createdDate, String getvDate, String getvTime, String applicantName) {
+
+        Log.d("setDataOfAssets","phoneNumber: "+phoneNumber);
+
+        ArrayAdapter<CharSequence> yesNoAdapter = ArrayAdapter.
+                createFromResource(AssetsVerifActivity.this,
+                        R.array.home_loan_yes_no_sp, android.R.layout.simple_spinner_item);
+
+        aplcNameEt.setText(applicantName);
+        personMetEt.setText(personMet);
+        phoneEt.setText(phoneNumber);
+        docOfOwnerShipEt.setText(docOfOwnership);
+        moneyPaymentEt.setText(marginMoneyPayment);
+        modeOfPaymentEt.setText(modeOfPayment);
+        setSpinnerData(sellerAccVerified, yesNoAdapter, entryInSellerAccSp);
+        setSpinnerData(bankCharge, yesNoAdapter, anyOtherBankChargeSp);
+        setSpinnerData(nocIssued, yesNoAdapter, nocIssuedSt);
+        agreementEt.setText(agreementValue);
+        stampDutyEt.setText(stampDuty);
+        registrationEt.setText(registration);
+        indexEt.setText(index);
+        panEt.setText(pancardNumber);
+
+        ArrayAdapter<CharSequence> productTypeAdapter = ArrayAdapter.
+                createFromResource(AssetsVerifActivity.this,
+                        R.array.product_type_sp, android.R.layout.simple_spinner_item);
+        try {
+            if (productType.equals("car")) {
+
+                String ptCarAddStr, ptCarPersonStr;
+
+                setSpinnerData("Car Loan", productTypeAdapter, productTypeSp);
+                // get JSONObject from JSON file
+                JSONObject obj = new JSONObject(productTypeDetails);
+                ptCarAddStr = obj.getString("address_visited");
+                ptCarPersonStr = obj.getString("person_met");
+
+                // set employee name and salary in TextView's
+                homeTypeLayout.setVisibility(View.GONE);
+                carTypeLayout.setVisibility(View.VISIBLE);
+                mortgageTypeLayout.setVisibility(View.GONE);
+
+                carLAddVisitedEt.setText(ptCarAddStr);
+                carLPersonMetEt.setText(ptCarPersonStr);
+            } else if (productType.equals("home")) {
+
+                homeTypeLayout.setVisibility(View.VISIBLE);
+                carTypeLayout.setVisibility(View.GONE);
+                mortgageTypeLayout.setVisibility(View.GONE);
+                homeLayoutCB.setChecked(true);
+
+                String ptHomePropertyStatus,ptHomeTypeOfUnit,ptHomeAccessbility,ptHomeConfirmAddress,ptHomeFlatType,ptHomeSqFit,
+                        ptHomeFloorNo,ptHomeDurationOfStay,ptHomeSocityNameBoard,ptHomeDoorNamePlat,
+                        ptHomeUtilityBill,ptHomeLocality,ptHomeInteriors,ptHomeExteriors,ptHomeRemark;
+                JSONObject obj = new JSONObject(productTypeDetails);
+                ptHomePropertyStatus = obj.getString("property_status");
+                ptHomeTypeOfUnit = obj.getString("type_of_unit");
+                ptHomeAccessbility = obj.getString("assessbility");
+                ptHomeConfirmAddress = obj.getString("confirm_address");
+                ptHomeFlatType = obj.getString("flat_type");
+                ptHomeSqFit = obj.getString("sq_fit");
+                ptHomeFloorNo = obj.getString("floor_no");
+                ptHomeDurationOfStay = obj.getString("duration_of_stay");
+                ptHomeSocityNameBoard = obj.getString("socity_name_board");
+                ptHomeDoorNamePlat = obj.getString("door_name_plat");
+                ptHomeUtilityBill = obj.getString("utility_bill");
+                ptHomeLocality = obj.getString("locality");
+                ptHomeInteriors = obj.getString("interiors");
+                ptHomeExteriors = obj.getString("exteriors");
+                ptHomeRemark = obj.getString("remark");
+
+                ArrayAdapter<CharSequence> homeAdapterPropertyStatys = ArrayAdapter.
+                        createFromResource(AssetsVerifActivity.this,
+                                R.array.property_status_sp, android.R.layout.simple_spinner_item);
+                ArrayAdapter<CharSequence> homeAdapterTypeOfUnit = ArrayAdapter.
+                        createFromResource(AssetsVerifActivity.this,
+                                R.array.type_of_unit_sp, android.R.layout.simple_spinner_item);
+                ArrayAdapter<CharSequence> homeAdapterAccessibility = ArrayAdapter.
+                        createFromResource(AssetsVerifActivity.this,
+                                R.array.accessibility_sp, android.R.layout.simple_spinner_item);
+                ArrayAdapter<CharSequence> homeAdapterYesNo = ArrayAdapter.
+                        createFromResource(AssetsVerifActivity.this,
+                                R.array.home_loan_yes_no_sp, android.R.layout.simple_spinner_item);
+                ArrayAdapter<CharSequence> homeAdapterDimension = ArrayAdapter.
+                        createFromResource(AssetsVerifActivity.this,
+                                R.array.dimension_sp, android.R.layout.simple_spinner_item);
+                ArrayAdapter<CharSequence> homeAdapterNoOfFloors = ArrayAdapter.
+                        createFromResource(AssetsVerifActivity.this,
+                                R.array.num_floor_sp, android.R.layout.simple_spinner_item);
+                ArrayAdapter<CharSequence> homeAdapterDurationStay = ArrayAdapter.
+                        createFromResource(AssetsVerifActivity.this,
+                                R.array.duration_stay_sp, android.R.layout.simple_spinner_item);
+                ArrayAdapter<CharSequence> homeAdapterUtility = ArrayAdapter.
+                        createFromResource(AssetsVerifActivity.this,
+                                R.array.home_loan_utility_bill_sp, android.R.layout.simple_spinner_item);
+                ArrayAdapter<CharSequence> homeAdapterLocality = ArrayAdapter.
+                        createFromResource(AssetsVerifActivity.this,
+                                R.array.home_loan_locality_sp, android.R.layout.simple_spinner_item);
+
+
+                setSpinnerData("Home Loan", productTypeAdapter, productTypeSp);
+                setSpinnerData(ptHomePropertyStatus, homeAdapterPropertyStatys, propertStateSp);
+                setSpinnerData(ptHomeTypeOfUnit, homeAdapterTypeOfUnit, typeUnitSp);
+                setSpinnerData(ptHomeAccessbility, homeAdapterAccessibility, accessibilitySp);
+                setSpinnerData(ptHomeConfirmAddress, homeAdapterYesNo, addresConfimedSp);
+                dimensionEt.setText(ptHomeSqFit);
+                setSpinnerData(ptHomeFlatType, homeAdapterDimension, dimensionHhkSp);
+                setSpinnerData(ptHomeFloorNo, homeAdapterNoOfFloors, noOfFloorsSp);
+                setSpinnerData(ptHomeDurationOfStay, homeAdapterDurationStay, durationOfStaySp);
+                setSpinnerData(ptHomeSocityNameBoard, homeAdapterYesNo, societyNameBoardSp);
+                setSpinnerData(ptHomeDoorNamePlat, homeAdapterYesNo, doorNamePlateSp);
+                setSpinnerData(ptHomeUtilityBill, homeAdapterUtility, utilityBillSp);
+                setSpinnerData(ptHomeLocality, homeAdapterLocality, localitySp);
+
+                String[] interiorsList = ptHomeInteriors.split("[,]", 0);
+                Log.d("interiorsList: ", Arrays.toString(interiorsList));
+                for (String s : interiorsList) {
+                    if (s.equals(" Painted")) {
+                        interpaintedCb.setChecked(true);
+                    } else if (s.equals(" Clean")) {
+                        interCleanCb.setChecked(true);
+                    } else if (s.equals(" Carpet")) {
+                        interCarpetCb.setChecked(true);
+                    } else if (s.equals(" Sofa")) {
+                        interSofaCb.setChecked(true);
+                    } else if (s.equals(" Curtain")) {
+                        interCurtainCb.setChecked(true);
+                    } else if (s.equals(" Showcase")) {
+                        interShowcaseCb.setChecked(true);
+                    }
+                }
+
+                String[] exteriorList = ptHomeExteriors.split("[,]", 0);
+                for (String s : exteriorList) {
+                    if (s.equals(" Garden")) {
+                        exterGardenCb.setChecked(true);
+                    } else if (s.equals(" Elevator")) {
+                        exterElevatorCb.setChecked(true);
+                    } else if (s.equals(" Car parking")) {
+                        exterCarParkingCb.setChecked(true);
+                    } else if (s.equals(" Security")) {
+                        exterSecurityCb.setChecked(true);
+                    } else if (s.equals(" Swimming Pool")) {
+                        exterSwimmingCb.setChecked(true);
+                    } else if (s.equals(" Intercom")) {
+                        exterintercomCb.setChecked(true);
+                    }
+                }
+
+                homeRemark.setText(ptHomeRemark);
+
+            } else if (productType.equals("mortgage")) {
+
+                homeTypeLayout.setVisibility(View.VISIBLE);
+                carTypeLayout.setVisibility(View.GONE);
+                mortgageTypeLayout.setVisibility(View.VISIBLE);
+
+                String ptMortgageType,
+                        ptMortgageLandArea,ptMortgageLandOwnership,
+                        ptMortgageMachineryType,
+                        ptMortgageStockRawMaterial,
+                        ptMortgageStockFinishWood;
+                JSONObject obj = new JSONObject(productTypeDetails);
+                ptMortgageType = obj.getString("mortgage_type");
+
+                ArrayAdapter<CharSequence> mortgageTypeAdappter = ArrayAdapter.
+                        createFromResource(AssetsVerifActivity.this,
+                                R.array.mortgage_type_sp, android.R.layout.simple_spinner_item);
+
+                setSpinnerData("mortgage", productTypeAdapter, productTypeSp);
+
+                if (ptMortgageType.equals("land")) {
+                    ptMortgageLandArea = obj.getString("area");
+                    ptMortgageLandOwnership = obj.getString("ownership_land");
+
+                    landLayout.setVisibility(View.VISIBLE);
+                    machineryLayout.setVisibility(View.GONE);
+                    stockLayout.setVisibility(View.GONE);
+                    setSpinnerData("Land", mortgageTypeAdappter, mortgageTypeSp);
+                    landAreaEt.setText(ptMortgageLandArea);
+                    landOwnershipEt.setText(ptMortgageLandOwnership);
+                }else if (ptMortgageType.equals("machinery")) {
+                    ptMortgageMachineryType = obj.getString("type_of_machinery");
+
+                    landLayout.setVisibility(View.GONE);
+                    machineryLayout.setVisibility(View.VISIBLE);
+                    stockLayout.setVisibility(View.GONE);
+                    setSpinnerData("Machinery", mortgageTypeAdappter, mortgageTypeSp);
+                    machineryTypeEt.setText(ptMortgageMachineryType);
+
+
+                }else if (ptMortgageType.equals("stock")) {
+                    ptMortgageStockRawMaterial = obj.getString("raw_material");
+                    ptMortgageStockFinishWood = obj.getString("finish_wood");
+
+                    landLayout.setVisibility(View.GONE);
+                    machineryLayout.setVisibility(View.GONE);
+                    stockLayout.setVisibility(View.VISIBLE);
+                    setSpinnerData("stock", mortgageTypeAdappter, mortgageTypeSp);
+                    stockRawMaterialEt.setText(ptMortgageStockRawMaterial);
+                    stockFinishWoodEt.setText(ptMortgageStockFinishWood);
+                }
+
+            }
+        } catch (JSONException e) {
+            Log.e( "setDataOfAssets", e.getMessage());
+        }
+
+
+    }
+
+    private void setSpinnerData(String compareValue, ArrayAdapter<CharSequence> adapter, Spinner mSpinner) {
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(adapter);
+        if (compareValue != null) {
+            int spinnerPosition = adapter.getPosition(compareValue);
+            mSpinner.setSelection(spinnerPosition, true);
+        }
     }
 
     private void setChecBoxVal() {
@@ -299,8 +594,9 @@ public class AssetsVerifActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (productTypeSp.getSelectedItemPosition() == 1) {
                     homeLayoutCB.setChecked(true);
-                    setSpinnerYear();
+//                    setSpinnerYear();
                     setDateTime();
+                    productTypeStr = "home";
                 } else {
                     homeLayoutCB.setChecked(false);
                 }
@@ -308,6 +604,7 @@ public class AssetsVerifActivity extends AppCompatActivity {
                 if (productTypeSp.getSelectedItemPosition() == 2) {
                     carTypeLayout.setVisibility(View.VISIBLE);
                     homeTypeLayout.setVisibility(View.GONE);
+                    productTypeStr = "car";
                 } else {
                     homeTypeLayout.setVisibility(View.VISIBLE);
                     carTypeLayout.setVisibility(View.GONE);
@@ -315,6 +612,7 @@ public class AssetsVerifActivity extends AppCompatActivity {
 
                 if (productTypeSp.getSelectedItemPosition() == 3) {
                     mortgageTypeLayout.setVisibility(View.VISIBLE);
+                    productTypeStr = "mortgage";
                 } else {
                     mortgageTypeLayout.setVisibility(View.GONE);
                 }
@@ -330,9 +628,9 @@ public class AssetsVerifActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (mortgageTypeSp.getSelectedItemPosition() == 1) {
-                    loanLayout.setVisibility(View.VISIBLE);
+                    landLayout.setVisibility(View.VISIBLE);
                 } else {
-                    loanLayout.setVisibility(View.GONE);
+                    landLayout.setVisibility(View.GONE);
                 }
                 if (mortgageTypeSp.getSelectedItemPosition() == 2) {
                     machineryLayout.setVisibility(View.VISIBLE);
@@ -412,9 +710,9 @@ public class AssetsVerifActivity extends AppCompatActivity {
 
     private void checkValidation() {
         ///validation
-        String aplcNameStr = "",personMetStr = "", phoneStr = "", docOfOwnershipStr = "", moneyPaymentStr = "", entryInSellerAccStr = "", anyOtherBankChargeStr = "",
+        String aplcNameStr = "", personMetStr = "", phoneStr = "", docOfOwnershipStr = "", moneyPaymentStr = "", modeOfPaymentStr = "", entryInSellerAccStr = "", anyOtherBankChargeStr = "",
                 nocIssuedStr = "", agreementStr = "", stampDutyStr = "", registrationStr = "", indexStr = "", panStr = "";
-        String productTypeStr = "";
+
         String propertyStatusStr = "", typeOfUnitStr = "", accessStr = "", addressStr = "", dimensionSqStr = "", dimensionFitStr = "", noOfFloorsStr = "",
                 durationOfStayStr = "", societyNameStr = "", doorNamePlateStr = "", utilityBillsStr = "", localityStr = "", interiorStr = "", exteriorsStr = "",
                 homeRemarkStr = "";
@@ -430,6 +728,7 @@ public class AssetsVerifActivity extends AppCompatActivity {
         phoneStr = phoneEt.getText().toString();
         docOfOwnershipStr = docOfOwnerShipEt.getText().toString();
         moneyPaymentStr = moneyPaymentEt.getText().toString();
+        modeOfPaymentStr = modeOfPaymentEt.getText().toString();
         entryInSellerAccStr = entryInSellerAccSp.getSelectedItem().toString();
         anyOtherBankChargeStr = anyOtherBankChargeSp.getSelectedItem().toString();
         nocIssuedStr = nocIssuedSt.getSelectedItem().toString();
@@ -439,7 +738,12 @@ public class AssetsVerifActivity extends AppCompatActivity {
         indexStr = indexEt.getText().toString();
         panStr = panEt.getText().toString();
 
-        productTypeStr = productTypeSp.getSelectedItem().toString();
+//        productTypeStr = productTypeSp.getSelectedItem().toString();
+
+        if (productTypeSp.getSelectedItemPosition() == 0) {
+            snackBarMsg("Select Product type...!!!");
+            return;
+        }
 
         if (homeLayoutCB.isChecked()) {
             if (propertStateSp.getSelectedItemPosition() == 0) {
@@ -515,6 +819,8 @@ public class AssetsVerifActivity extends AppCompatActivity {
                 snackBarMsg("Select Interiors...!!!");
                 return;
             } else {
+                interiorArray.add(0, " ");
+                interiorArray.add(exteriorArray.size(), " ");
                 String[] interiorsList = Arrays.copyOf(interiorArray.toArray(), interiorArray.size(), String[].class);
                 interiorStr = Arrays.toString(interiorsList);
             }
@@ -522,6 +828,8 @@ public class AssetsVerifActivity extends AppCompatActivity {
                 snackBarMsg("Select Exterior...!!!");
                 return;
             } else {
+                exteriorArray.add(0, " ");
+                exteriorArray.add(exteriorArray.size(), " ");
                 String[] exteriorList = Arrays.copyOf(exteriorArray.toArray(), exteriorArray.size(), String[].class);
                 exteriorsStr = Arrays.toString(exteriorList);
             }
@@ -568,7 +876,7 @@ public class AssetsVerifActivity extends AppCompatActivity {
                 snackBarMsg("Select mortgage type...!!!");
                 return;
             } else
-                mortgageTypeStr = mortgageTypeSp.getSelectedItem().toString();
+                mortgageTypeStr = mortgageTypeSp.getSelectedItem().toString().toLowerCase(Locale.ROOT);
 
             if (mortgageTypeSp.getSelectedItemPosition() == 1 && landAreaEt.getText().toString().isEmpty()) {
                 snackBarMsg("Area of mortage is getting empty...!!!");
@@ -607,29 +915,42 @@ public class AssetsVerifActivity extends AppCompatActivity {
         }
 
         dateStr = dateEt.getText().toString();
-        timeStr = timeEt.getText().toString();
+        timeStr = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date());//timeEt.getText().toString();
 
         if (productTypeSp.getSelectedItemPosition() == 2) {
-            insertToDatabase(aplcNameStr,personMetStr, phoneStr, docOfOwnershipStr, moneyPaymentStr, entryInSellerAccStr,
-                    anyOtherBankChargeStr, nocIssuedStr, agreementStr, stampDutyStr, registrationStr, indexStr, panStr,
+            insertToDatabase(aplcNameStr, personMetStr, phoneStr, docOfOwnershipStr, moneyPaymentStr, modeOfPaymentStr, entryInSellerAccStr,
+                    anyOtherBankChargeStr, nocIssuedStr, agreementStr, stampDutyStr, registrationStr, indexStr, panStr, productTypeStr,
                     carLoAddressVisitedStr, carLoPersonStr, mortgageTypeStr, mortLandAreaStr, mortLandOwnershipStr,
                     mortMachineryTypeOfMachineryStr, mortStockRawMaterialStr, mortStockFinishWoodStr, dateStr, timeStr);
         } else
-            insertToDatabaseWithHome(aplcNameStr,personMetStr, phoneStr, docOfOwnershipStr, moneyPaymentStr, entryInSellerAccStr, anyOtherBankChargeStr,
+            insertToDatabaseWithHome(aplcNameStr, personMetStr, phoneStr, docOfOwnershipStr, moneyPaymentStr, modeOfPaymentStr, entryInSellerAccStr, anyOtherBankChargeStr,
                     nocIssuedStr, agreementStr, stampDutyStr, registrationStr, indexStr, panStr, productTypeStr, propertyStatusStr, typeOfUnitStr, accessStr, addressStr, dimensionSqStr, dimensionFitStr, noOfFloorsStr,
                     durationOfStayStr, societyNameStr, doorNamePlateStr, utilityBillsStr, localityStr, interiorStr, exteriorsStr,
                     homeRemarkStr, carLoAddressVisitedStr, carLoPersonStr, mortgageTypeStr, mortLandAreaStr, mortLandOwnershipStr,
                     mortMachineryTypeOfMachineryStr, mortStockRawMaterialStr, mortStockFinishWoodStr, dateStr, timeStr);
     }
 
-    private void insertToDatabaseWithHome(String aplcNameStr,String personMetStr, String phoneStr, String docOfOwnershipStr, String moneyPaymentStr, String entryInSellerAccStr, String anyOtherBankChargeStr, String nocIssuedStr, String agreementStr, String stampDutyStr, String registrationStr, String indexStr, String panStr, String productTypeStr, String propertyStatusStr, String typeOfUnitStr, String accessStr, String addressStr, String dimensionSqStr, String dimensionFitStr, String noOfFloorsStr, String durationOfStayStr, String societyNameStr, String doorNamePlateStr, String utilityBillsStr, String localityStr, String interiorStr, String exteriorsStr, String homeRemarkStr, String carLoAddressVisitedStr, String carLoPersonStr, String mortgageTypeStr, String mortLandAreaStr, String mortLandOwnershipStr, String mortMachineryTypeOfMachineryStr, String mortStockRawMaterialStr, String mortStockFinishWoodStr, String dateStr, String timeStr) {
+    private void insertToDatabaseWithHome(String aplcNameStr, String personMetStr, String phoneStr, String docOfOwnershipStr,
+                                          String moneyPaymentStr, String modeOfPaymentStr, String entryInSellerAccStr,
+                                          String anyOtherBankChargeStr,String nocIssuedStr, String agreementStr,
+                                          String stampDutyStr, String registrationStr,String indexStr, String panStr,
+                                          String productTypeStr, String propertyStatusStr, String typeOfUnitStr,
+                                          String accessStr, String addressStr, String dimensionSqStr, String dimensionFitStr,
+                                          String noOfFloorsStr, String durationOfStayStr, String societyNameStr,
+                                          String doorNamePlateStr, String utilityBillsStr, String localityStr,
+                                          String interiorStr, String exteriorsStr, String homeRemarkStr,
+                                          String carLoAddressVisitedStr, String carLoPersonStr, String mortgageTypeStr,
+                                          String mortLandAreaStr, String mortLandOwnershipStr, String mortMachineryTypeOfMachineryStr,
+                                          String mortStockRawMaterialStr, String mortStockFinishWoodStr, String dateStr, String timeStr) {
 
         progressdialog.show();
 
         AssetsVerifInterface assetsVerifInterface = ApiClient.getRetrofitInstance().create(AssetsVerifInterface.class);
 
-        Call<AssetsVerifResponse> call = assetsVerifInterface.insertAssetsVerifWithHome(executiveId, addDataIdIntentStr,aplcNameStr, personMetStr, phoneStr, docOfOwnershipStr, moneyPaymentStr, entryInSellerAccStr, anyOtherBankChargeStr,
-                nocIssuedStr, agreementStr, stampDutyStr, registrationStr, indexStr, panStr, productTypeStr, propertyStatusStr, typeOfUnitStr, accessStr, addressStr, dimensionSqStr, dimensionFitStr, noOfFloorsStr,
+        Call<AssetsVerifResponse> call = assetsVerifInterface.insertAssetsVerifWithHome(executiveId, addDataIdIntentStr,
+                aplcNameStr, personMetStr, phoneStr, docOfOwnershipStr, moneyPaymentStr, modeOfPaymentStr, entryInSellerAccStr,
+                anyOtherBankChargeStr, nocIssuedStr, agreementStr, stampDutyStr, registrationStr, indexStr, panStr,
+                productTypeStr, propertyStatusStr, typeOfUnitStr, accessStr, addressStr, dimensionSqStr, dimensionFitStr, noOfFloorsStr,
                 durationOfStayStr, societyNameStr, doorNamePlateStr, utilityBillsStr, localityStr, interiorStr, exteriorsStr,
                 homeRemarkStr, carLoAddressVisitedStr, carLoPersonStr, mortgageTypeStr, mortLandAreaStr, mortLandOwnershipStr,
                 mortMachineryTypeOfMachineryStr, mortStockRawMaterialStr, mortStockFinishWoodStr, dateStr, timeStr);
@@ -664,10 +985,13 @@ public class AssetsVerifActivity extends AppCompatActivity {
         });
     }
 
-    private void insertToDatabase(String aplcNameStr,String personMetStr, String phoneStr, String docOfOwnershipStr, String moneyPaymentStr,
+    private void insertToDatabase(String aplcNameStr, String personMetStr, String phoneStr, String docOfOwnershipStr,
+                                  String moneyPaymentStr, String modeOfPaymentStr,
                                   String entryInSellerAccStr, String anyOtherBankChargeStr, String nocIssuedStr,
                                   String agreementStr, String stampDutyStr, String registrationStr, String indexStr,
-                                  String panStr, String carLoAddressVisitedStr, String carLoPersonStr, String mortgageTypeStr,
+                                  String panStr, String productTypeStr,
+
+                                  String carLoAddressVisitedStr, String carLoPersonStr, String mortgageTypeStr,
                                   String mortLandAreaStr, String mortLandOwnershipStr, String mortMachineryTypeOfMachineryStr,
                                   String mortStockRawMaterialStr, String mortStockFinishWoodStr, String dateStr, String timeStr) {
 
@@ -675,9 +999,9 @@ public class AssetsVerifActivity extends AppCompatActivity {
 
         AssetsVerifInterface assetsVerifInterface = ApiClient.getRetrofitInstance().create(AssetsVerifInterface.class);
 
-        Call<AssetsVerifResponse> call = assetsVerifInterface.insertAssetsVerif(executiveId, addDataIdIntentStr,aplcNameStr,
-                personMetStr, phoneStr, docOfOwnershipStr, moneyPaymentStr, entryInSellerAccStr, anyOtherBankChargeStr,
-                nocIssuedStr, agreementStr, stampDutyStr, registrationStr, indexStr, panStr, carLoAddressVisitedStr,
+        Call<AssetsVerifResponse> call = assetsVerifInterface.insertAssetsVerif(executiveId, addDataIdIntentStr, aplcNameStr,
+                personMetStr, phoneStr, docOfOwnershipStr, moneyPaymentStr, modeOfPaymentStr, entryInSellerAccStr, anyOtherBankChargeStr,
+                nocIssuedStr, agreementStr, stampDutyStr, registrationStr, indexStr, panStr, productTypeStr, carLoAddressVisitedStr,
                 carLoPersonStr, mortgageTypeStr, mortLandAreaStr, mortLandOwnershipStr,
                 mortMachineryTypeOfMachineryStr, mortStockRawMaterialStr, mortStockFinishWoodStr, dateStr, timeStr);
 
@@ -828,12 +1152,15 @@ public class AssetsVerifActivity extends AppCompatActivity {
         compressHomeIv = findViewById(R.id.assets_home_layout_iv);
         //product type car
         carTypeLayout = findViewById(R.id.assets_car_type_layout);
+        carLAddVisitedEt = findViewById(R.id.assets_aplc_car_address_visit_et);
+        carLPersonMetEt = findViewById(R.id.assets_aplc_car_person_met_et);
         //product type car
+
 
         //product type mortgage
         mortgageTypeLayout = findViewById(R.id.assets_mortgage_type_layout);
         mortgageTypeSp = findViewById(R.id.assets_product_type_mortgage_sp);
-        loanLayout = findViewById(R.id.layout_mortgage_type_land);
+        landLayout = findViewById(R.id.layout_mortgage_type_land);
         machineryLayout = findViewById(R.id.layout_mortgage_type_machinery);
         stockLayout = findViewById(R.id.layout_mortgage_type_stock);
         landAreaEt = findViewById(R.id.assets_aplc_mortgage_land_area_et);
@@ -846,7 +1173,7 @@ public class AssetsVerifActivity extends AppCompatActivity {
         assetsRlSubmit = findViewById(R.id.layout_assets_home_type_submit);
 
         setDateTime();
-        setSpinnerYear();
+//        setSpinnerYear();
 
 //        aplcId = SharedPrefAuth.getInstance(getApplicationContext()).getAplcId(getApplicationContext());
         executiveId = SharedPrefAuth.getInstance(getApplicationContext()).getValueOfUserId(getApplicationContext());

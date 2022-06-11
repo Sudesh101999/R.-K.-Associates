@@ -1,52 +1,75 @@
 package com.rkassociates.UploadAppliDoc.Pages.CurrentResidPropertyPage.APiCalls.ReadData;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class CurrentResidencePropertyTable {
     @SerializedName("residence_property_id")
+    @Expose
     private String residencePropertyId;
     @SerializedName("executive_id")
+    @Expose
     private String executiveId;
-    @SerializedName("applicant_id")
-    private String applicantId;
-    @SerializedName("applicant_name")
-    private String applicantName;
+    @SerializedName("add_data_id")
+    @Expose
+    private String addDataId;
     @SerializedName("property_status")
+    @Expose
     private String propertyStatus;
     @SerializedName("type_of_unit")
+    @Expose
     private String typeOfUnit;
     @SerializedName("accessibility")
+    @Expose
     private String accessibility;
     @SerializedName("address_confirmed")
+    @Expose
     private String addressConfirmed;
     @SerializedName("dimenension")
+    @Expose
     private String dimenension;
     @SerializedName("number_of_floors")
+    @Expose
     private String numberOfFloors;
     @SerializedName("door_name_plate")
+    @Expose
     private String doorNamePlate;
     @SerializedName("duration_of_stay")
+    @Expose
     private String durationOfStay;
     @SerializedName("society_name_board")
+    @Expose
     private String societyNameBoard;
     @SerializedName("utility_bills")
+    @Expose
     private String utilityBills;
     @SerializedName("class_of_locality")
+    @Expose
     private String classOfLocality;
     @SerializedName("interiors")
+    @Expose
     private String interiors;
     @SerializedName("exteriors")
+    @Expose
     private String exteriors;
     @SerializedName("remark")
+    @Expose
     private String remark;
     @SerializedName("buying_property")
+    @Expose
     private String buyingProperty;
     @SerializedName("visited_date_time")
+    @Expose
     private String visitedDateTime;
     @SerializedName("residence_property_status")
+    @Expose
     private String residencePropertyStatus;
     @SerializedName("created_date")
+    @Expose
     private String createdDate;
+    @SerializedName("applicant_name")
+    @Expose
+    private String applicantName;
 
     public String getResidencePropertyId() {
         return residencePropertyId;
@@ -64,20 +87,12 @@ public class CurrentResidencePropertyTable {
         this.executiveId = executiveId;
     }
 
-    public String getApplicantId() {
-        return applicantId;
+    public String getAddDataId() {
+        return addDataId;
     }
 
-    public void setApplicantId(String applicantId) {
-        this.applicantId = applicantId;
-    }
-
-    public String getApplicantName() {
-        return applicantName;
-    }
-
-    public void setApplicantName(String applicantName) {
-        this.applicantName = applicantName;
+    public void setAddDataId(String addDataId) {
+        this.addDataId = addDataId;
     }
 
     public String getPropertyStatus() {
@@ -222,5 +237,13 @@ public class CurrentResidencePropertyTable {
 
     public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getApplicantName() {
+        return applicantName;
+    }
+
+    public void setApplicantName(String applicantName) {
+        this.applicantName = applicantName;
     }
 }

@@ -27,6 +27,10 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/drawable/select_image_bg.xml" value="0.1595" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/drawable/spinner_bg.xml" value="0.212" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/drawable/submit_image_bg.xml" value="0.1595" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/drawable/tab_layout_gradient_bg.xml" value="0.163" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/drawable/tab_layout_tab_bg.xml" value="0.163" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/drawable/table_border_text_bg.xml" value="0.137" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/drawable/textview_bg.xml" value="0.137" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/drawable/upload_activity_bg_layout.xml" value="0.1595" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/drawable/upload_doc_bg.xml" value="0.1595" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/activity_applicant.xml" value="0.253125" />
@@ -38,12 +42,13 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/activity_current_residence_verif.xml" value="0.253125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/activity_details_of_itractivity.xml" value="0.253125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/activity_doc_picker.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/activity_history_details.xml" value="0.24923076923076923" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/activity_history_list_page.xml" value="0.253125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/activity_itr_kyc_verif.xml" value="0.253125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/activity_login.xml" value="0.253125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/activity_main.xml" value="0.2390625" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/activity_profile_page.xml" value="0.253125" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/activity_registered.xml" value="0.253125" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/activity_registered.xml" value="0.171875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/activity_splash.xml" value="0.253125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/activity_tele_verif_of_refer_page.xml" value="0.24537037037037038" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/activity_upload_doc.xml" value="0.253125" />
@@ -56,8 +61,10 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/item_history_list.xml" value="0.24923076923076923" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/item_pending_list.xml" value="0.253125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/item_recycler_iv.xml" value="0.253125" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/profile_page_multi_co_aplc.xml" value="0.253125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/progress_bar_layout.xml" value="0.253125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/registered_page_multi_applicant.xml" value="0.253125" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/set_multi_co_aplc_data_profile_page.xml" value="0.253125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/set_multi_co_applic_data.xml" value="0.253125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/RKAssociates/app/src/main/res/layout/upload_doc_bg_layout.xml" value="0.253125" />
         <entry key="..\:/Users/user/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_spinner_item.xml" value="0.253125" />

@@ -1,9 +1,11 @@
 package com.rkassociates.HistoryList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.rkassociates.HistoryDetails.HistoryDetailsActivity;
 import com.rkassociates.HistoryList.ApiCalls.HistoryListResult;
 import com.rkassociates.R;
 
@@ -35,16 +38,34 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull HistoryListViewHolder holder, int position) {
-        HistoryListResult listResult = results.get(position);
-        holder.idTv.setText(listResult.getAdd_data_id());
-        holder.aplcNameTv.setText(listResult.getName());
-        holder.bankNameTv.setText(listResult.getBank_name());
-        holder.branchNameTv.setText(listResult.getBranch_name());
+//        HistoryListResult listResult = results.get(position);
+        holder.idTv.setText(results.get(position).getAddDataId());
+        holder.aplcNameTv.setText(results.get(position).getName());
+        holder.bankNameTv.setText(results.get(position).getBankName());
+        holder.branchNameTv.setText(results.get(position).getBranchName());
 
         holder.historyListLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Clicked: "+listResult.getAdd_data_id(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Clicked: "+results.get(position).getAddDataId(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.viewDetailsIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Clicked: "+results.get(position).getAddDataId()+" for view details.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, HistoryDetailsActivity.class);
+                intent.putExtra("addDataId",results.get(position).getAddDataId());
+                intent.putExtra("ApplicantName",results.get(position).getName());
+                context.startActivities(new Intent[]{intent});
+            }
+        });
+
+        holder.sendMailIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Clicked: "+results.get(position).getAddDataId()+" for generate mail.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -57,12 +78,15 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
     public class HistoryListViewHolder extends RecyclerView.ViewHolder {
         private final CardView historyListLL;
+        private final ImageView viewDetailsIv,sendMailIv;
         private final TextView idTv,aplcNameTv,bankNameTv,branchNameTv;
         public HistoryListViewHolder(@NonNull View itemView) {
             super(itemView);
-            historyListLL = itemView.findViewById(R.id.pending_list_ll);
-            idTv = itemView.findViewById(R.id.list_item_id_tv);
-            aplcNameTv = itemView.findViewById(R.id.list_item_aplc_name_tv);
+            historyListLL = itemView.findViewById(R.id.history_list_ll);
+            idTv = itemView.findViewById(R.id.list_item_history_aplc_id_tv);
+            viewDetailsIv = itemView.findViewById(R.id.list_item_history_view_details_iv);
+            sendMailIv = itemView.findViewById(R.id.list_item_history_mail_details_iv);
+            aplcNameTv = itemView.findViewById(R.id.list_item_history_aplc_name_tv);
             bankNameTv = itemView.findViewById(R.id.list_item_history_bank_tv);
             branchNameTv = itemView.findViewById(R.id.list_item_history_branch_tv);
         }

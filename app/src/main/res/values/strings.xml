@@ -41,6 +41,8 @@
     </string-array>
     <string-array name="num_floor_sp">
         <item>--Select--</item>
+        <item>NA</item>
+        <item>Ground Floor</item>
         <item>1 Floor</item>
         <item>2 Floor</item>
         <item>3 Floor</item>

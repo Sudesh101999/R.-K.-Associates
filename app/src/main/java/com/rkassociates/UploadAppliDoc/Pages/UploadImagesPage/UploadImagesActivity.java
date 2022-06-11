@@ -288,6 +288,7 @@ public class UploadImagesActivity extends AppCompatActivity {
     }
 
     private void insertToDatabase() {
+
         progressdialog.show();
         List<MultipartBody.Part> list = new ArrayList<>();
         for (Uri uri : uriFile) {
@@ -349,4 +350,5 @@ public class UploadImagesActivity extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
+
 }

@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -20,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.rkassociates.Common.ApiClient;
 import com.rkassociates.R;
+import com.rkassociates.SharedPref.SharedPrefApplicantInfo;
 import com.rkassociates.SharedPref.SharedPrefAuth;
 import com.rkassociates.SharedPref.SharedPrefDocuComplete;
 import com.rkassociates.UploadAppliDoc.Pages.ItrVerifPage.ApiCalls.ReadData.ItrKycReadResponse;
@@ -39,11 +42,13 @@ public class ItrKycVerifActivity extends AppCompatActivity {
     private ProgressDialog progressdialog;
     private String executiveId, aplcIdtr;
     private ImageView backIv;
-    private EditText aplcItrFrom1Et, aplcItrFrom2Et, aplcItrFrom3Et,aplcItrTo1Et, aplcItrTo2Et, aplcItrTo3Et, aplcItrYearRemarkEt;
+    private CheckBox aplcAsPerItrCb,aplcAasPerForm16Cb;
+    private EditText aplcItrFrom1Et, aplcItrFrom2Et, aplcItrFrom3Et, aplcItrTo1Et, aplcItrTo2Et, aplcItrTo3Et, aplcItrYearRemarkEt;
     private EditText aplcNameEt, aplcPanEt, aplcPanRemarkEt, aplcAadhaarEt, aplcAadhaarRemarkEt, aplcElectricEt,
             aplcElectricRemarkEt, aplcBankEt, aplcBankRemarkEt, aplcRemarkEt;
 
-    private EditText coAplcItrFrom1Et, coAplcItrFrom2Et, coAplcItrFrom3Et,coAplcItrTo1Et, coAplcItrTo2Et, coAplcItrTo3Et, coAplcItrYearRemarkEt;
+    private CheckBox coAplcAsPerItrCb,coAplcAasPerForm16Cb;
+    private EditText coAplcItrFrom1Et, coAplcItrFrom2Et, coAplcItrFrom3Et, coAplcItrTo1Et, coAplcItrTo2Et, coAplcItrTo3Et, coAplcItrYearRemarkEt;
     private EditText coAplcNameEt, coAplcPanEt, coAplcPanRemarkEt, coAplcAadhaarEt, coAplcAadhaarRemarkEt,
             coAplcElectricEt, coAplcElectricRemarkEt, coAplcBankEt, coAplcBankRemarkEt, coAplcRemarkEt;
 
@@ -67,6 +72,26 @@ public class ItrKycVerifActivity extends AppCompatActivity {
             if (activityFor.equals("Pending")) {
                 Log.d("AddDataId", addDataIdIntentStr);
                 getDataFromDatabase();
+            } else if (activityFor.equals("newData")) {
+                String aplcName = SharedPrefApplicantInfo.getInstance(getApplicationContext()).getAplcName(getApplicationContext());
+                aplcNameEt.setText(aplcName);
+
+                String aplcPan = SharedPrefApplicantInfo.getInstance(getApplicationContext()).getAplcPanCard(getApplicationContext());
+                String aplcAadhar = SharedPrefApplicantInfo.getInstance(getApplicationContext()).getAplcAadharCard(getApplicationContext());
+                String aplcElectric = SharedPrefApplicantInfo.getInstance(getApplicationContext()).getAplcElectricCard(getApplicationContext());
+
+                aplcPanEt.setText(aplcPan);
+                aplcAadhaarEt.setText(aplcAadhar);
+                aplcElectricEt.setText(aplcElectric);
+
+                String coAplcPan = SharedPrefApplicantInfo.getInstance(getApplicationContext()).getCoAplcPanCard(getApplicationContext());
+                String coAplcAadhar = SharedPrefApplicantInfo.getInstance(getApplicationContext()).getCoAplcAadharCard(getApplicationContext());
+                String coAplcElectric = SharedPrefApplicantInfo.getInstance(getApplicationContext()).getCoAplcElectricCard(getApplicationContext());
+
+                coAplcPanEt.setText(coAplcPan);
+                coAplcAadhaarEt.setText(coAplcAadhar);
+                coAplcElectricEt.setText(coAplcElectric);
+
             }
         }
 
@@ -79,7 +104,7 @@ public class ItrKycVerifActivity extends AppCompatActivity {
         progressdialog.show();
 
         itrKycVerifInterface itrKycVerifInterface = ApiClient.getRetrofitInstance().create(itrKycVerifInterface.class);
-        Call<ItrKycReadResponse> call = itrKycVerifInterface.itrKycVefiRead(addDataIdIntentStr,executiveId);
+        Call<ItrKycReadResponse> call = itrKycVerifInterface.itrKycVefiRead(addDataIdIntentStr, executiveId);
 
         call.enqueue(new Callback<ItrKycReadResponse>() {
             @Override
@@ -138,17 +163,17 @@ public class ItrKycVerifActivity extends AppCompatActivity {
 
     }
 
-    private void setDataToView(String aplcNameStr,String year1, String year2, String year3, String yearRemark, String pancardNumber,
+    private void setDataToView(String aplcNameStr, String year1, String year2, String year3, String yearRemark, String pancardNumber,
                                String pancardRemark, String aadharcardNumber, String aadharcardRemark,
-                               String electricityBill, String electricityRemark,String bankStr, String bankRemarkStr, String finalRemark,
-                               String coAplcNameStr,String coApplicantYear1, String coApplicantYear2, String coApplicantYear3,
+                               String electricityBill, String electricityRemark, String bankStr, String bankRemarkStr, String finalRemark,
+                               String coAplcNameStr, String coApplicantYear1, String coApplicantYear2, String coApplicantYear3,
                                String coApplicantPancardNumber, String coApplicantPancardRemark,
                                String coApplicantAadharcardNumber, String coApplicantAadharcardRemark,
                                String coApplicantElectricityBill, String coApplicantElectricityRemark,
                                String coApplicantBankName, String coApplicantBankRemark, String coApplicantFinalRemark) {
 
 
-        Log.e("TAG", "setDataToView: "+year1 );
+        Log.e("TAG", "setDataToView: " + year1);
 
         aplcNameEt.setText(aplcNameStr);
 
@@ -203,6 +228,38 @@ public class ItrKycVerifActivity extends AppCompatActivity {
 
     private void operations() {
 
+        aplcAsPerItrCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()) {
+                    aplcAasPerForm16Cb.setChecked(false);
+                }
+            }
+        });
+        aplcAasPerForm16Cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()) {
+                    aplcAsPerItrCb.setChecked(false);
+                }
+            }
+        });
+        coAplcAsPerItrCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()) {
+                    coAplcAasPerForm16Cb.setChecked(false);
+                }
+            }
+        });
+        coAplcAasPerForm16Cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()) {
+                    coAplcAsPerItrCb.setChecked(false);
+                }
+            }
+        });
         aplcItrFrom1Et.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -216,7 +273,7 @@ public class ItrKycVerifActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!editable.equals("") && editable.length()>3) {
+                if (!editable.equals("") && editable.length() > 3) {
 
                     double lastYear = Double.parseDouble(aplcItrFrom1Et.getText().toString());
                     double one = Double.parseDouble("1");
@@ -227,7 +284,7 @@ public class ItrKycVerifActivity extends AppCompatActivity {
                     double forAplcFrom2Et = lastYear - 1;
                     double forAplcTo2Et = lastYear;
 
-                    double forAplcFrom3Et = forAplcFrom2Et - 1 ;
+                    double forAplcFrom3Et = forAplcFrom2Et - 1;
                     double forAplcTo3Et = forAplcFrom2Et;
 
 //                    aplcItrFrom1Et.setText(Double.toString(dataStr);
@@ -258,7 +315,7 @@ public class ItrKycVerifActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
 
-                if (!editable.equals("") && editable.length()>3) {
+                if (!editable.equals("") && editable.length() > 3) {
 
                     double lastYear = Double.parseDouble(coAplcItrFrom1Et.getText().toString());
                     double one = Double.parseDouble("1");
@@ -268,7 +325,7 @@ public class ItrKycVerifActivity extends AppCompatActivity {
                     double forAplcFrom2Et = lastYear - 1;
                     double forAplcTo2Et = lastYear;
 
-                    double forAplcFrom3Et = forAplcFrom2Et - 1 ;
+                    double forAplcFrom3Et = forAplcFrom2Et - 1;
                     double forAplcTo3Et = forAplcFrom2Et;
 
 //                    aplcItrFrom1Et.setText(Double.toString(dataStr);
@@ -306,7 +363,7 @@ public class ItrKycVerifActivity extends AppCompatActivity {
     }
 
     private void setDataForDatabase() {
-        String aplcNameStr,aplcItrYear1Str, aplcItrYear2Str, aplcItrYear3Str, aplcItrYearRemarkStr, aplcPanStr, aplcPanRemarkStr, aplcAadhaarStr, aplcAadhaarRemarkStr,
+        String aplcNameStr, aplcItrYear1Str, aplcItrYear2Str, aplcItrYear3Str, aplcItrYearRemarkStr, aplcPanStr, aplcPanRemarkStr, aplcAadhaarStr, aplcAadhaarRemarkStr,
                 aplcEletricStr, aplcEletricRemarkStr, aplcBankStr, aplcBankRemarkStr, aplcRemarkStr;
 
         String coAplcNameStr, coAplcItrYear1Str, coAplcItrYear2Str, coAplcItrYear3Str, coAplcItrYearRemarkStr, coAplcPanStr, coAplcPanRemarkStr, coAplcAadhaarStr, coAplcAadhaarRemarkStr,
@@ -315,13 +372,13 @@ public class ItrKycVerifActivity extends AppCompatActivity {
         if (aplcNameEt.getText().toString().isEmpty()) {
             snackBarMsg("Applicant name getting empty...!!!");
             return;
-        }else
+        } else
             aplcNameStr = aplcNameEt.getText().toString();
 
         if (aplcItrFrom1Et.getText().toString().isEmpty()) {
             snackBarMsg("applicant Year getting empty...!!!");
             return;
-        }else {
+        } else {
             aplcItrYear1Str = aplcItrFrom1Et.getText().toString() + "-" + aplcItrTo1Et.getText().toString();
             aplcItrYear2Str = aplcItrFrom2Et.getText().toString() + "-" + aplcItrTo2Et.getText().toString();
             aplcItrYear3Str = aplcItrFrom2Et.getText().toString() + "-" + aplcItrTo3Et.getText().toString();
@@ -332,7 +389,7 @@ public class ItrKycVerifActivity extends AppCompatActivity {
         if (aplcPanEt.getText().toString().isEmpty()) {
             snackBarMsg("Pan Card getting empty...!!!");
             return;
-        }else
+        } else
             aplcPanStr = aplcPanEt.getText().toString();
 
         aplcPanRemarkStr = aplcPanRemarkEt.getText().toString();
@@ -340,7 +397,7 @@ public class ItrKycVerifActivity extends AppCompatActivity {
         if (aplcAadhaarEt.getText().toString().isEmpty()) {
             snackBarMsg("Aadhaar card getting empty...!!!");
             return;
-        }else
+        } else
             aplcAadhaarStr = aplcAadhaarEt.getText().toString();
 
         aplcAadhaarRemarkStr = aplcAadhaarRemarkEt.getText().toString();
@@ -348,7 +405,7 @@ public class ItrKycVerifActivity extends AppCompatActivity {
         if (aplcElectricEt.getText().toString().isEmpty()) {
             snackBarMsg("Electric getting empty...!!!");
             return;
-        }else
+        } else
             aplcEletricStr = aplcElectricEt.getText().toString();
 
         aplcEletricRemarkStr = aplcElectricRemarkEt.getText().toString();
@@ -356,7 +413,7 @@ public class ItrKycVerifActivity extends AppCompatActivity {
         if (aplcBankEt.getText().toString().isEmpty()) {
             snackBarMsg("Bank getting empty...!!!");
             return;
-        }else
+        } else
             aplcBankStr = aplcBankEt.getText().toString();
         aplcBankRemarkStr = aplcBankRemarkEt.getText().toString();
         aplcRemarkStr = aplcRemarkEt.getText().toString();
@@ -365,13 +422,13 @@ public class ItrKycVerifActivity extends AppCompatActivity {
         if (coAplcNameEt.getText().toString().isEmpty()) {
             snackBarMsg("Co-Applicant name getting empty...!!!");
             return;
-        }else
+        } else
             coAplcNameStr = coAplcNameEt.getText().toString();
 
         if (coAplcItrFrom1Et.getText().toString().isEmpty()) {
             snackBarMsg("Co-applicant year getting empty...!!!");
             return;
-        }else {
+        } else {
             coAplcItrYear1Str = coAplcItrFrom1Et.getText().toString() + "-" + coAplcItrTo1Et.getText().toString();
             coAplcItrYear2Str = coAplcItrFrom2Et.getText().toString() + "-" + coAplcItrTo2Et.getText().toString();
             coAplcItrYear3Str = coAplcItrFrom3Et.getText().toString() + "-" + coAplcItrTo3Et.getText().toString();
@@ -381,21 +438,21 @@ public class ItrKycVerifActivity extends AppCompatActivity {
         if (coAplcPanEt.getText().toString().isEmpty()) {
             snackBarMsg("Co-Applicant Pan card getting empty...!!!");
             return;
-        }else
+        } else
             coAplcPanStr = coAplcPanEt.getText().toString();
         coAplcPanRemarkStr = coAplcPanRemarkEt.getText().toString();
 
         if (coAplcAadhaarEt.getText().toString().isEmpty()) {
             snackBarMsg("Co-Applicant Aadhaar number getting empty...!!!");
             return;
-        }else
+        } else
             coAplcAadhaarStr = coAplcAadhaarEt.getText().toString();
         coAplcAadhaarRemarkStr = coAplcAadhaarRemarkEt.getText().toString();
 
         if (coAplcElectricEt.getText().toString().isEmpty()) {
             snackBarMsg("Co-Applicant Electric getting empty...!!!");
             return;
-        }else
+        } else
             coAplcEletricStr = coAplcElectricEt.getText().toString();
         coAplcEletricRemarkStr = coAplcElectricRemarkEt.getText().toString();
 
@@ -403,20 +460,20 @@ public class ItrKycVerifActivity extends AppCompatActivity {
 
             snackBarMsg("Co-Applicant Bank getting empty...!!!");
             return;
-        }else
+        } else
             coAplcBankStr = coAplcBankEt.getText().toString();
         coAplcBankRemarkStr = coAplcBankRemarkEt.getText().toString();
 
         coAplcRemarkStr = coAplcRemarkEt.getText().toString();
 
-        uploadToDatabase(aplcIdtr,aplcNameStr, aplcItrYear1Str, aplcItrYear2Str, aplcItrYear3Str, aplcItrYearRemarkStr, aplcPanStr, aplcPanRemarkStr,
+        uploadToDatabase(aplcIdtr, aplcNameStr, aplcItrYear1Str, aplcItrYear2Str, aplcItrYear3Str, aplcItrYearRemarkStr, aplcPanStr, aplcPanRemarkStr,
                 aplcAadhaarStr, aplcAadhaarRemarkStr, aplcEletricStr, aplcEletricRemarkStr, aplcBankStr, aplcBankRemarkStr, aplcRemarkStr,
                 coAplcNameStr, coAplcItrYear1Str, coAplcItrYear2Str, coAplcItrYear3Str, coAplcItrYearRemarkStr, coAplcPanStr, coAplcPanRemarkStr,
                 coAplcAadhaarStr, coAplcAadhaarRemarkStr, coAplcEletricStr, coAplcEletricRemarkStr, coAplcBankStr, coAplcBankRemarkStr, coAplcRemarkStr);
 
     }
 
-    private void uploadToDatabase(String aplcIdStr,String aplcNameStr, String aplcItrYear1Str, String aplcItrYear2Str, String aplcItrYear3Str,
+    private void uploadToDatabase(String aplcIdStr, String aplcNameStr, String aplcItrYear1Str, String aplcItrYear2Str, String aplcItrYear3Str,
                                   String aplcItrYearRemarkStr, String aplcPanStr, String aplcPanRemarkStr, String aplcAadhaarStr,
                                   String aplcAadhaarRemarkStr, String aplcEletricStr, String aplcEletricRemarkStr, String aplcBankStr,
                                   String aplcBankRemarkStr, String aplcRemarkStr, String coAplcNameStr, String coAplcItrYear1Str,
@@ -425,11 +482,12 @@ public class ItrKycVerifActivity extends AppCompatActivity {
                                   String coAplcEletricStr, String coAplcEletricRemarkStr, String coAplcBankStr,
                                   String coAplcBankRemarkStr, String coAplcRemarkStr) {
 
+        Log.d("uploadToDatabase: ","coAplcItrYearRemarkStr: "+coAplcItrYearRemarkStr);
 
         progressdialog.show();
 
         itrKycVerifInterface itrKycVerifInterface = ApiClient.getRetrofitInstance().create(itrKycVerifInterface.class);
-        Call<itrResponse> call = itrKycVerifInterface.itrKycVefiInsert(executiveId, addDataIdIntentStr,aplcNameStr, aplcItrYear1Str, aplcItrYear2Str, aplcItrYear3Str, aplcItrYearRemarkStr, aplcPanStr, aplcPanRemarkStr,
+        Call<itrResponse> call = itrKycVerifInterface.itrKycVefiInsert(executiveId, addDataIdIntentStr, aplcNameStr, aplcItrYear1Str, aplcItrYear2Str, aplcItrYear3Str, aplcItrYearRemarkStr, aplcPanStr, aplcPanRemarkStr,
                 aplcAadhaarStr, aplcAadhaarRemarkStr, aplcEletricStr, aplcEletricRemarkStr, aplcBankStr, aplcBankRemarkStr, aplcRemarkStr,
                 coAplcNameStr, coAplcItrYear1Str, coAplcItrYear2Str, coAplcItrYear3Str, coAplcItrYearRemarkStr, coAplcPanStr, coAplcPanRemarkStr,
                 coAplcAadhaarStr, coAplcAadhaarRemarkStr, coAplcEletricStr, coAplcEletricRemarkStr, coAplcBankStr, coAplcBankRemarkStr, coAplcRemarkStr);
@@ -537,6 +595,8 @@ public class ItrKycVerifActivity extends AppCompatActivity {
         aplcBankRemarkEt = findViewById(R.id.itr_kyc_aplc_bank_remark_et);
         aplcRemarkEt = findViewById(R.id.itr_kyc_aplc_final_remark_et);
 
+        aplcAsPerItrCb = findViewById(R.id.itr_kyc_aplc_as_per_itr_cb);
+        aplcAasPerForm16Cb = findViewById(R.id.itr_kyc_aplc_as_per_form_16_cb);
 
         aplcItrFrom1Et = findViewById(R.id.itr_kyc_aplc_itr_from_1_sp);
         aplcItrTo1Et = findViewById(R.id.itr_kyc_aplc_itr_to_1_et);
@@ -556,6 +616,9 @@ public class ItrKycVerifActivity extends AppCompatActivity {
         coAplcBankEt = findViewById(R.id.itr_kyc_co_aplc_bank_et);
         coAplcBankRemarkEt = findViewById(R.id.itr_kyc_co_aplc_bank_remark_et);
         coAplcRemarkEt = findViewById(R.id.itr_kyc_co_aplc_final_remark_et);
+
+        coAplcAsPerItrCb = findViewById(R.id.itr_kyc_co_aplc_as_per_itr_cb);
+        coAplcAasPerForm16Cb = findViewById(R.id.itr_kyc_co_aplc_as_per_form_16_cb);
 
         coAplcItrFrom1Et = findViewById(R.id.itr_kyc_co_aplc_itr_from_1_sp);
         coAplcItrTo1Et = findViewById(R.id.itr_kyc_co_aplc_itr_to_1_et);

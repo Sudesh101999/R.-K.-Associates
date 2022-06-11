@@ -275,17 +275,18 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <ImageView
+            android:id="@+id/empty_recycler_main_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/pending_title_tv"
+            android:visibility="gone"
+            android:src="@drawable/empty"/>
         <ProgressBar
             android:id="@+id/pending_progress_bar"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true" />
     </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/trans_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
 
 </RelativeLayout>

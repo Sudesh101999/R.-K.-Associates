@@ -1,30 +1,34 @@
-package com.rkassociates.UploadAppliDoc.Pages.AssetsVerifPage.ApiCalls;
+package com.rkassociates.UploadAppliDoc.Pages.AssetsVerifPage.ApiCalls.ReadData;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AssetsVerifResult {
+public class AssetsReadData {
+
+    @SerializedName("assets_verification_id")
+    @Expose
+    private String assetsVerificationId;
     @SerializedName("executive_id")
     @Expose
     private String executiveId;
     @SerializedName("add_data_id")
     @Expose
     private String addDataId;
-    @SerializedName("person_met")
-    @Expose
-    private String personMet;
     @SerializedName("phone_number")
     @Expose
     private String phoneNumber;
+    @SerializedName("person_met")
+    @Expose
+    private String personMet;
+    @SerializedName("mode_of_payment")
+    @Expose
+    private String modeOfPayment;
     @SerializedName("doc_of_ownership")
     @Expose
     private String docOfOwnership;
     @SerializedName("margin_money_payment")
     @Expose
     private String marginMoneyPayment;
-    @SerializedName("mode_of_payment")
-    @Expose
-    private String modeOfPayment;
     @SerializedName("seller_acc_verified")
     @Expose
     private String sellerAccVerified;
@@ -52,18 +56,32 @@ public class AssetsVerifResult {
     @SerializedName("product_type")
     @Expose
     private String productType;
+    @SerializedName("product_type_details")
+    @Expose
+    private String productTypeDetails;
+    @SerializedName("assets_verification_status")
+    @Expose
+    private String assetsVerificationStatus;
+    @SerializedName("created_date")
+    @Expose
+    private String createdDate;
     @SerializedName("v_date")
     @Expose
     private String vDate;
     @SerializedName("v_time")
     @Expose
     private String vTime;
-    @SerializedName("assets_verification_status")
+    @SerializedName("applicant_name")
     @Expose
-    private Integer assetsVerificationStatus;
-    @SerializedName("product_type_details")
-    @Expose
-    private String productTypeDetails;
+    private String applicantName;
+
+    public String getAssetsVerificationId() {
+        return assetsVerificationId;
+    }
+
+    public void setAssetsVerificationId(String assetsVerificationId) {
+        this.assetsVerificationId = assetsVerificationId;
+    }
 
     public String getExecutiveId() {
         return executiveId;
@@ -81,6 +99,14 @@ public class AssetsVerifResult {
         this.addDataId = addDataId;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getPersonMet() {
         return personMet;
     }
@@ -89,12 +115,12 @@ public class AssetsVerifResult {
         this.personMet = personMet;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getModeOfPayment() {
+        return modeOfPayment;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setModeOfPayment(String modeOfPayment) {
+        this.modeOfPayment = modeOfPayment;
     }
 
     public String getDocOfOwnership() {
@@ -111,14 +137,6 @@ public class AssetsVerifResult {
 
     public void setMarginMoneyPayment(String marginMoneyPayment) {
         this.marginMoneyPayment = marginMoneyPayment;
-    }
-
-    public String getModeOfPayment() {
-        return modeOfPayment;
-    }
-
-    public void setModeOfPayment(String modeOfPayment) {
-        this.modeOfPayment = modeOfPayment;
     }
 
     public String getSellerAccVerified() {
@@ -193,6 +211,30 @@ public class AssetsVerifResult {
         this.productType = productType;
     }
 
+    public String getProductTypeDetails() {
+        return productTypeDetails;
+    }
+
+    public void setProductTypeDetails(String productTypeDetails) {
+        this.productTypeDetails = productTypeDetails;
+    }
+
+    public String getAssetsVerificationStatus() {
+        return assetsVerificationStatus;
+    }
+
+    public void setAssetsVerificationStatus(String assetsVerificationStatus) {
+        this.assetsVerificationStatus = assetsVerificationStatus;
+    }
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
     public String getvDate() {
         return vDate;
     }
@@ -209,19 +251,11 @@ public class AssetsVerifResult {
         this.vTime = vTime;
     }
 
-    public Integer getAssetsVerificationStatus() {
-        return assetsVerificationStatus;
+    public String getApplicantName() {
+        return applicantName;
     }
 
-    public void setAssetsVerificationStatus(Integer assetsVerificationStatus) {
-        this.assetsVerificationStatus = assetsVerificationStatus;
-    }
-
-    public String getProductTypeDetails() {
-        return productTypeDetails;
-    }
-
-    public void setProductTypeDetails(String productTypeDetails) {
-        this.productTypeDetails = productTypeDetails;
+    public void setApplicantName(String applicantName) {
+        this.applicantName = applicantName;
     }
 }

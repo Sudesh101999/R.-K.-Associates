@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".HistoryDetails.HistoryDetailsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="5dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="8dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:id="@+id/history_details_registered_user_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Registered User"
+                    android:textColor="@color/black"
+                    android:textSize="23sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_toEndOf="@+id/history_details_registered_user_title_tv"
+                    android:src="@drawable/ic_baseline_edit_24"
+                    app:tint="@color/app_icon" />
+                <TableLayout
+                    android:id="@+id/registered_tablayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_below="@+id/history_details_registered_user_title_tv">
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+                            android:text="Name: "
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:padding="5dp"
+                            android:layout_marginStart="5dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Testing name"
+                            android:layout_column="2"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:layout_gravity="center_vertical"/>
+                    </TableRow>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1.5dp"
+                        android:background="@color/darker_gray"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Physical Verification"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="15sp"/>
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+                            android:text="Residence Verification: "
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:padding="5dp"
+                            android:layout_marginStart="5dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Testing name"
+                            android:layout_column="2"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:layout_gravity="center_vertical"/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+                            android:text="Office/Business\nVerification: "
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:padding="5dp"
+                            android:layout_marginStart="5dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Testing name"
+                            android:layout_column="2"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:layout_gravity="center_vertical"/>
+                    </TableRow>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1.5dp"
+                        android:background="@color/darker_gray"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T.P.C Verification"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_vertical"/>
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+                            android:text="Residence: "
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:padding="5dp"
+                            android:layout_marginStart="5dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Testing name"
+                            android:layout_column="2"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:layout_gravity="center_vertical"/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+                            android:text="Work: "
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:padding="5dp"
+                            android:layout_marginStart="5dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Testing name"
+                            android:layout_column="2"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:layout_gravity="center_vertical"/>
+                    </TableRow>
+                </TableLayout>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</ScrollView>

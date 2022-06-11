@@ -1275,7 +1275,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
-                                android:background="@drawable/spinner_bg" />
+                                android:background="@drawable/spinner_bg"
+                                android:entries="@array/num_floor_sp"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -1312,7 +1313,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
-                                android:background="@drawable/spinner_bg" />
+                                android:background="@drawable/spinner_bg"
+                                android:entries="@array/duration_stay_sp"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -1692,7 +1694,8 @@
             android:layout_marginRight="15dp"
             android:layout_marginBottom="5dp"
             app:cardCornerRadius="10dp"
-            app:cardElevation="8dp">
+            app:cardElevation="8dp"
+            android:visibility="gone">
 
             <RelativeLayout
                 android:layout_width="match_parent"

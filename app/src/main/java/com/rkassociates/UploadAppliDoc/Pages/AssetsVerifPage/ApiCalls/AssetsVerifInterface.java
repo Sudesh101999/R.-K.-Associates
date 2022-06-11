@@ -1,5 +1,7 @@
 package com.rkassociates.UploadAppliDoc.Pages.AssetsVerifPage.ApiCalls;
 
+import com.rkassociates.UploadAppliDoc.Pages.AssetsVerifPage.ApiCalls.ReadData.AssetsReadResponse;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -17,6 +19,7 @@ public interface AssetsVerifInterface {
             @Field("phone_number") String  phone_number,
             @Field("doc_of_ownership") String  doc_of_ownership,
             @Field("margin_money_payment") String  margin_money_payment,
+            @Field("mode_of_payment") String  modeOfPaymentStr,
             @Field("seller_acc_verified") String  seller_acc_verified,
             @Field("bank_charge") String  bank_charge,
             @Field("NOC_issue") String  NOC_issue,
@@ -65,9 +68,11 @@ public interface AssetsVerifInterface {
             @Field("executive_id") String  executive_id,
             @Field("add_data_id") String add_data_id,
             @Field("aplcNameStr") String aplcNameStr,
+            @Field("person_met") String personMetStr,
             @Field("phone_number") String  phone_number,
             @Field("doc_of_ownership") String  doc_of_ownership,
             @Field("margin_money_payment") String  margin_money_payment,
+            @Field("mode_of_payment") String  modeOfPaymentStr,
             @Field("seller_acc_verified") String  seller_acc_verified,
             @Field("bank_charge") String  bank_charge,
             @Field("NOC_issue") String  NOC_issue,
@@ -77,6 +82,7 @@ public interface AssetsVerifInterface {
             @Field("index") String  index,
             @Field("pancard_number") String  pancard_number,
             @Field("product_type") String  product_type,
+
             @Field("address_visited") String  address_visited,
             @Field("person_met") String  person_met,
             @Field("mortgage_type") String  mortgage_type,
@@ -87,5 +93,12 @@ public interface AssetsVerifInterface {
             @Field("finish_wood") String  finish_wood,
             @Field("v_date") String  v_date,
             @Field("v_time") String  v_time
+    );
+
+    @FormUrlEncoded
+    @POST("api/ItrKycVerification/assets_verification_table")
+    Call<AssetsReadResponse> readAssetsVerif(
+            @Field("executive_id") String  executive_id,
+            @Field("add_data_id") String add_data_id
     );
 }

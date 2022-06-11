@@ -1,17 +1,28 @@
 package com.rkassociates.HistoryList.ApiCalls;
 
-public class HistoryListResult {
-    String add_data_id;
-    String name;
-    String bank_name;
-    String branch_name;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    public String getAdd_data_id() {
-        return add_data_id;
+public class HistoryListResult {
+    @SerializedName("add_data_id")
+    @Expose
+    private String addDataId;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("bank_name")
+    @Expose
+    private String bankName;
+    @SerializedName("branch_name")
+    @Expose
+    private String branchName;
+
+    public String getAddDataId() {
+        return addDataId;
     }
 
-    public void setAdd_data_id(String add_data_id) {
-        this.add_data_id = add_data_id;
+    public void setAddDataId(String addDataId) {
+        this.addDataId = addDataId;
     }
 
     public String getName() {
@@ -22,19 +33,19 @@ public class HistoryListResult {
         this.name = name;
     }
 
-    public String getBank_name() {
-        return bank_name;
+    public String getBankName() {
+        return bankName;
     }
 
-    public void setBank_name(String bank_name) {
-        this.bank_name = bank_name;
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 
-    public String getBranch_name() {
-        return branch_name;
+    public String getBranchName() {
+        return branchName;
     }
 
-    public void setBranch_name(String branch_name) {
-        this.branch_name = branch_name;
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
     }
 }

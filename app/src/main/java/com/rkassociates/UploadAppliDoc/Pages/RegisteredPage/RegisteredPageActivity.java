@@ -22,14 +22,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.rkassociates.Common.ApiClient;
 import com.rkassociates.R;
+import com.rkassociates.SharedPref.SharedPrefApplicantInfo;
 import com.rkassociates.SharedPref.SharedPrefAuth;
 import com.rkassociates.SharedPref.SharedPrefDocuComplete;
 import com.rkassociates.UploadAppliDoc.Pages.RegisteredPage.APICall.CoAplcResult.coAplcResponse;
+import com.rkassociates.UploadAppliDoc.Pages.RegisteredPage.APICall.ReadData.CoApplicantData;
 import com.rkassociates.UploadAppliDoc.Pages.RegisteredPage.APICall.ReadData.RegisteredResponseRead;
 import com.rkassociates.UploadAppliDoc.Pages.RegisteredPage.APICall.registerInterface;
 import com.rkassociates.UploadAppliDoc.Pages.RegisteredPage.APICall.registeredResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -77,6 +80,8 @@ public class RegisteredPageActivity extends AppCompatActivity {
     private String activityFor = "";
     private String addDataIdIntentStr, aplcNameIntentStr, pendingListStr;
 
+    String coAplcNameShared;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,19 +90,28 @@ public class RegisteredPageActivity extends AppCompatActivity {
 
         initData();
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            activityFor = extras.getString("activityFor");
-            addDataIdIntentStr = extras.getString("addDataIdIntentStr");
-            //The key argument here must match that used in the other activity
+        try {
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                activityFor = extras.getString("activityFor");
+                addDataIdIntentStr = extras.getString("addDataIdIntentStr");
+                //The key argument here must match that used in the other activity
 
-            if (activityFor.equals("Pending")) {
-                Log.d("AddDataId", addDataIdIntentStr);
-                getDataFromDatabase();
+                if (activityFor.equals("Pending")) {
+                    aplcNameIntentStr = extras.getString("aplcNameIntentStr");
+                    aplcNameEt.setText(aplcNameIntentStr);
+                    getDataFromDatabase();
+                } else if (activityFor.equals("newData")) {
+                    String aplcName = SharedPrefApplicantInfo.getInstance(getApplicationContext()).getAplcName(getApplicationContext());
+                    aplcNameEt.setText(aplcName);
+                    coAplcNameShared = SharedPrefApplicantInfo.getInstance(getApplicationContext()).getCoAplcName(getApplicationContext());
+
+                }
             }
+        }catch (Exception e){
+            Log.e("Intent Exception: ",e.getMessage());
         }
 
-        Log.e("userInfo", "applicantNameStr: " + applicantNameStr + "\naplcIdStr: " + executiveIdStr);
 
         onclickOperation();
 
@@ -107,37 +121,58 @@ public class RegisteredPageActivity extends AppCompatActivity {
         progressdialog.show();
 
         registerInterface anInterface = ApiClient.getRetrofitInstance().create(registerInterface.class);
-        Call<RegisteredResponseRead> call = anInterface.RegisteredApplicantCall(addDataIdIntentStr,executiveIdStr);
+        Call<RegisteredResponseRead> call = anInterface.RegisteredApplicantCall(addDataIdIntentStr, executiveIdStr);
         call.enqueue(new Callback<RegisteredResponseRead>() {
             @Override
             public void onResponse(Call<RegisteredResponseRead> call, Response<RegisteredResponseRead> response) {
                 try {
-                    if (response.body().getStatus().equals("4")) {
+                    if (response.body().getStatus().equals("success")) {
                         Log.d("Data aplc loaded", response.body().getMessage());
 
                         Log.e("required Data",
-                                "Applicant Name: " + response.body().getData().getApplicant().getApplicantName()
-                                        + "\nco-Applicant name: " + response.body().getData().getCoApplicant().size()
-                                        + "\nExecutive Id: " + response.body().getData().getApplicant().getExecutiveId());
+                                "Applicant Name: " + response.body().getResult().applicant
+                                        + "\nco-Applicant size: " + response.body().getResult().getCoApplicantTable().size()
+                                        + "\nExecutive Id: " + response.body().getResult().getApplicant().getExecutiveId());
 
                         snackBarMsg("Message: " + response.body().getMessage());
 
                         setReadedData(
-                                response.body().getData().getApplicant().getApplicantName(),
-                                response.body().getData().getApplicant().getResidenceVerification(),
-                                response.body().getData().getApplicant().getBusinessVerification(),
-                                response.body().getData().getApplicant().getResidence(),
-                                response.body().getData().getApplicant().getWork(),
-                                response.body().getData().getApplicant().getiTRVerification(),
-                                response.body().getData().getApplicant().gettDSCertificateVerification(),
-                                response.body().getData().getApplicant().getBankStatementVerification(),
-                                response.body().getData().getApplicant().getChangePropertyVerification(),
-                                response.body().getData().getApplicant().getPanNumber(),
-                                response.body().getData().getApplicant().getAadhaarNumber(),
-                                response.body().getData().getApplicant().getElectricityBill(),
-                                response.body().getData().getApplicant().getDrivingLicense()
+//                                response.body().getResult().getApplicant().getApplicantName(),
+                                aplcNameIntentStr,
+                                response.body().getResult().getApplicant().getResidenceVerification(),
+                                response.body().getResult().getApplicant().getBusinessVerification(),
+                                response.body().getResult().getApplicant().getResidence(),
+                                response.body().getResult().getApplicant().getWork(),
+                                response.body().getResult().getApplicant().getiTRVerification(),
+                                response.body().getResult().getApplicant().gettDSCertificateVerification(),
+                                response.body().getResult().getApplicant().getBankStatementVerification(),
+                                response.body().getResult().getApplicant().getChangePropertyVerification(),
+                                response.body().getResult().getApplicant().getPanNumber(),
+                                response.body().getResult().getApplicant().getAadhaarNumber(),
+                                response.body().getResult().getApplicant().getElectricityBill(),
+                                response.body().getResult().getApplicant().getDrivingLicense()
                         );
 
+                        if (response.body().getResult().getCoApplicantTable().size()>0) {
+                            List<CoApplicantData> coApplicantDataList = response.body().getResult().getCoApplicantTable();
+                            for (int i = 0; i < coApplicantDataList.size(); i++) {
+                                validateMultiData(
+                                        coApplicantDataList.get(i).getCoApplicantName(),
+                                        coApplicantDataList.get(i).getPanNumber(),
+                                        coApplicantDataList.get(i).getAadhaarNumber(),
+                                        coApplicantDataList.get(i).getElectricityBill(),
+                                        coApplicantDataList.get(i).getDrivingLicense(),
+                                        coApplicantDataList.get(i).getResidenceVerification(),
+                                        coApplicantDataList.get(i).getBusinessVerification(),
+                                        coApplicantDataList.get(i).getResidence(),
+                                        coApplicantDataList.get(i).getWork(),
+                                        coApplicantDataList.get(i).getiTRVerification(),
+                                        coApplicantDataList.get(i).gettDSCertificateVerification(),
+                                        coApplicantDataList.get(i).getBankStatementVerification(),
+                                        coApplicantDataList.get(i).getChangePropertyVerification()
+                                );
+                            }
+                        }
                     } else {
                         progressdialog.dismiss();
                         Log.e("Upload aplc error", response.body().getMessage());
@@ -171,10 +206,9 @@ public class RegisteredPageActivity extends AppCompatActivity {
                 createFromResource(RegisteredPageActivity.this,
                         R.array.work_sp, android.R.layout.simple_spinner_item);
 
-        aplcNameEt.setText(applicantName);
         setSpinnerData(residenceVerification, yes_no_spAdapter, aplcResidenceSp);
         setSpinnerData(businessVerification, yes_no_spAdapter, aplcOfficeSp);
-        setSpinnerData(residence, yes_no_spAdapter, aplcResidenceSp);
+        setSpinnerData(residence, yes_no_spAdapter, aplcTpcResidenceSp);
         setSpinnerData(work, work_sp_spAdapter, aplcTcpWorkSp);
         setSpinnerData(getiTRVerification, yes_no_spAdapter, aplcItrVerifSp);
         setSpinnerData(gettDSCertificateVerification, yes_no_spAdapter, aplcTdsCertifSp);
@@ -186,12 +220,12 @@ public class RegisteredPageActivity extends AppCompatActivity {
         aplcDrivingEt.setText(drivingLicense);
     }
 
-    private void setSpinnerData(String compareValue, ArrayAdapter<CharSequence> adapter, Spinner mSpinner){
+    private void setSpinnerData(String compareValue, ArrayAdapter<CharSequence> adapter, Spinner mSpinner) {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(adapter);
         if (compareValue != null) {
             int spinnerPosition = adapter.getPosition(compareValue);
-            mSpinner.setSelection(spinnerPosition,true);
+            mSpinner.setSelection(spinnerPosition, true);
         }
     }
 
@@ -221,7 +255,7 @@ public class RegisteredPageActivity extends AppCompatActivity {
             }
         });
         int maxLength = 12;
-        aplcAadhaarEt.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+        aplcAadhaarEt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
 
         submitRL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,7 +263,7 @@ public class RegisteredPageActivity extends AppCompatActivity {
                 if (coApplicantid == 0) {
                     Toast.makeText(RegisteredPageActivity.this, "Enter Co-Applicant Data", Toast.LENGTH_SHORT).show();
                 } else {
-                    openAlertDialogForSubmit();
+                    ApplicantDataToInsert();
                 }
             }
         });
@@ -239,6 +273,7 @@ public class RegisteredPageActivity extends AppCompatActivity {
 
         final AlertDialog.Builder alert = new AlertDialog.Builder(RegisteredPageActivity.this);
         View v = getLayoutInflater().inflate(R.layout.registered_page_multi_applicant, null, false);
+
         EditText multiAplcName, panEt, aadhaarEt, electricityEt, drivingEt;
         Spinner residVerifSp, offiBusiSp, tpcResiSp, tcpWorkSp, itrVerif, tdsCertif, bankVerif, changePropVerifSp;
         RelativeLayout canceLL, doneLL, progressLL;
@@ -260,7 +295,7 @@ public class RegisteredPageActivity extends AppCompatActivity {
         canceLL = v.findViewById(R.id.layout_multi_cancel);
         doneLL = v.findViewById(R.id.layout_multi_done);
 
-        multiAplcName.setText(SharedPrefAuth.getInstance(getApplicationContext()).getCoAplcName(getApplicationContext()));
+//        multiAplcName.setText(coAplcNameShared);
 
         residVerifSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -443,9 +478,11 @@ public class RegisteredPageActivity extends AppCompatActivity {
                     multiCoAplcDialogdrivingStr = drivingEt.getText().toString();
 
                 progressLL.setVisibility(View.VISIBLE);
-                validateMultiData(multiCoAplcDialogNameStr, multiCoAplcDialogpanStr, multiCoAplcDialogaadhaarStr, multiCoAplcDialogelectricStr, multiCoAplcDialogdrivingStr,
-                        multiCoAplcDialogresidVerifStr, multiCoAplcDialogoffiBusiStr, multiCoAplcDialogtpcResiStr, multiCoAplcDialogtcpWorkStr, multiCoAplcDialogitrVerifStr,
-                        multiCoAplcDialogtdsCertifStr, multiCoAplcDialogbankVerifStr, multiCoAplcDialogchangePropVerifStr);
+                validateMultiData(multiCoAplcDialogNameStr, multiCoAplcDialogpanStr, multiCoAplcDialogaadhaarStr,
+                        multiCoAplcDialogelectricStr, multiCoAplcDialogdrivingStr,multiCoAplcDialogresidVerifStr,
+                        multiCoAplcDialogoffiBusiStr, multiCoAplcDialogtpcResiStr, multiCoAplcDialogtcpWorkStr,
+                        multiCoAplcDialogitrVerifStr,multiCoAplcDialogtdsCertifStr, multiCoAplcDialogbankVerifStr,
+                        multiCoAplcDialogchangePropVerifStr);
                 alertDialog.dismiss();
 
             }
@@ -553,11 +590,8 @@ public class RegisteredPageActivity extends AppCompatActivity {
 
 
                 boolean editClicked = true;
-                openAlertDialogForDeleteLayout(setDatalayout, multiCoAplcNameStr, residVerifStr, offiBusiStr,
-                        tpcResiStr, tpcWorkStr, itrVerifStr, tdsCertifStr, bankVerifStr, changePropVerifStr,
-                        panStr, aadhaarStr, electricStr, drivingStr, editClicked);
 
-                editInLayoutData(coApName, coApResidence, coApOffice, cpAltpcResid, tpcWork, itrVerif, tdsCertify,
+                editInLayoutData(setDatalayout,editClicked,coApName, coApResidence, coApOffice, cpAltpcResid, tpcWork, itrVerif, tdsCertify,
                         bankState, changeProper, pan, aadhaar, electric, drive);
 
 
@@ -578,9 +612,10 @@ public class RegisteredPageActivity extends AppCompatActivity {
 
     }
 
-    private void editInLayoutData(String coApName, String coApResidence, String coApOffice, String cpAltpcResid,
-                                  String tpcWork, String itrVerif, String tdsCertify, String bankState,
-                                  String changeProper, String pan, String aadhaar, String electric, String drive) {
+    private void editInLayoutData(View setDatalayout, boolean editClicked, String coApName, String coApResidence,
+                                  String coApOffice, String cpAltpcResid, String tpcWork, String itrVerif,
+                                  String tdsCertify, String bankState, String changeProper, String pan,
+                                  String aadhaar, String electric, String drive) {
 
 
         final AlertDialog.Builder alert = new AlertDialog.Builder(RegisteredPageActivity.this);
@@ -643,7 +678,6 @@ public class RegisteredPageActivity extends AppCompatActivity {
         int chagnePropertyAdapPosition = chagnePropertyAdap.getPosition(changeProper);
         changePropVerifSp.setSelection(chagnePropertyAdapPosition);
         //add spinner value
-        ////
         panEt.setText(pan);
         aadhaarEt.setText(aadhaar);
         electricityEt.setText(electric);
@@ -794,13 +828,11 @@ public class RegisteredPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 if (multiAplcName.getText().toString().isEmpty()) {
                     snackBarMsg("Co-Applicant Name require...!");
                     return;
                 } else {
                     multiCoAplcDialogNameStr = multiAplcName.getText().toString();
-
                 }
                 if (panEt.getText().toString().isEmpty()) {
                     snackBarMsg("Co-Applicant PAN card number require...!");
@@ -808,31 +840,28 @@ public class RegisteredPageActivity extends AppCompatActivity {
                     return;
                 } else {
                     multiCoAplcDialogpanStr = panEt.getText().toString();
-
                 }
-
                 if (aadhaarEt.getText().toString().isEmpty()) {
                     snackBarMsg("Co-Applicant Aadhaar number require...!");
-
                     return;
                 } else {
                     multiCoAplcDialogaadhaarStr = aadhaarEt.getText().toString();
-
                 }
-
                 if (electricityEt.getText().toString().isEmpty()) {
                     snackBarMsg("Co-Applicant electricity number require...!");
-
                     return;
                 } else {
                     multiCoAplcDialogelectricStr = electricityEt.getText().toString();
                 }
-
                 if (drivingEt.getText().toString().isEmpty()) {
                     multiCoAplcDialogdrivingStr = "";
                 } else
                     multiCoAplcDialogdrivingStr = drivingEt.getText().toString();
 
+
+                openAlertDialogForDeleteLayout(setDatalayout,coApName, coApResidence, coApOffice,
+                        cpAltpcResid, tpcWork, itrVerif, tdsCertify, bankState, changeProper,
+                        pan, aadhaar, electric, drive, editClicked);
 
                 progressLL.setVisibility(View.VISIBLE);
                 validateMultiData(multiCoAplcDialogNameStr, multiCoAplcDialogpanStr, multiCoAplcDialogaadhaarStr, multiCoAplcDialogelectricStr, multiCoAplcDialogdrivingStr,
@@ -884,7 +913,8 @@ public class RegisteredPageActivity extends AppCompatActivity {
     private void openAlertDialogForDeleteLayout(View setDatalayout, String multiCoAplcNameStr, String residVerifStr,
                                                 String offiBusiStr, String tpcResiStr, String tpcWorkStr, String itrVerifStr,
                                                 String tdsCertifStr, String bankVerifStr, String changePropVerifStr,
-                                                String panStr, String aadhaarStr, String electricStr, String drivingStr, boolean editClicked) {
+                                                String panStr, String aadhaarStr, String electricStr, String drivingStr,
+                                                boolean editClicked) {
 
         if (editClicked) {
             NameArray.remove(multiCoAplcNameStr);
@@ -962,7 +992,11 @@ public class RegisteredPageActivity extends AppCompatActivity {
         }
     }
 
-    private void openAlertDialogForSubmit() {
+    private void openAlertDialogForSubmit(String aplcNameStr, String aplcResidenceStr, String aplcOfficeStr,
+                                          String aplcTpcResidenceStr, String aplcTcpWorkStr, String aplcItrVerifStr,
+                                          String aplcTdsCertifStr, String aplcBankStamentStr, String aplcChangePropStr,
+                                          String aplcPanStr, String aplcAadhaarStr, String aplcElectricStr,
+                                          String aplcDrivingStr) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("Confirm");
@@ -972,7 +1006,9 @@ public class RegisteredPageActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
 
 
-                ApplicantDataToInsert();
+                aplcantDataToDatabase(aplcNameStr, aplcResidenceStr, aplcOfficeStr, aplcTpcResidenceStr, aplcTcpWorkStr,
+                        aplcItrVerifStr, aplcTdsCertifStr, aplcBankStamentStr, aplcChangePropStr, aplcPanStr, aplcAadhaarStr,
+                        aplcElectricStr, aplcDrivingStr);
 //                SharedPrefDocuComplete.getInstance(getApplicationContext()).setRegistereduserData(true);
 //                finish();
                 dialog.dismiss();
@@ -995,10 +1031,12 @@ public class RegisteredPageActivity extends AppCompatActivity {
     private void Co_AplicantDataToInsert(String coAplcName, String coAplcResidence, String coAplcOffice,
                                          String coAplcTPCResidence, String coAplcWork, String coAplcItrVerif,
                                          String coAplcTdsVerif, String coAplcBankVerif, String coAplcChageProp,
-                                         String coAplcPan, String coAplcAadhaar, String coAplcElectric, String coAplcDriving) {
+                                         String coAplcPan, String coAplcAadhaar, String coAplcElectric,
+                                         String coAplcDriving, int countCoAplc) {
 
 
 //        progressdialog.show();
+
 
         registerInterface anInterface = ApiClient.getRetrofitInstance().create(registerInterface.class);
         Call<coAplcResponse> call = anInterface.RegisteredCoApplicantCall(addDataIdIntentStr, executiveId, coAplcName, coAplcResidence,
@@ -1012,6 +1050,14 @@ public class RegisteredPageActivity extends AppCompatActivity {
                         Log.d("coApplicant Data", response.body().result.co_applicant_name);
                         snackBarMsg("Message: " + response.body().msg);
 
+                        if (countCoAplc == 1) {
+                            SharedPrefApplicantInfo.getInstance(getApplicationContext()).setCoAplcPanAadharElectric(
+                                    getApplicationContext(),
+                                    response.body().result.pan_number,
+                                    response.body().result.aadhaar_number,
+                                    response.body().result.electricity_bill
+                            );
+                        }
                         Toast.makeText(RegisteredPageActivity.this,
                                 "Message: " + response.body().msg, Toast.LENGTH_SHORT).show();
 
@@ -1121,9 +1167,10 @@ public class RegisteredPageActivity extends AppCompatActivity {
             aplcDrivingStr = aplcDrivingEt.getText().toString();
 
 
-        aplcantDataToDatabase(aplcNameStr, aplcResidenceStr, aplcOfficeStr, aplcTpcResidenceStr, aplcTcpWorkStr,
+        openAlertDialogForSubmit(aplcNameStr, aplcResidenceStr, aplcOfficeStr, aplcTpcResidenceStr, aplcTcpWorkStr,
                 aplcItrVerifStr, aplcTdsCertifStr, aplcBankStamentStr, aplcChangePropStr, aplcPanStr, aplcAadhaarStr,
                 aplcElectricStr, aplcDrivingStr);
+
 
     }
 
@@ -1149,13 +1196,16 @@ public class RegisteredPageActivity extends AppCompatActivity {
                     if (response.body().status == 4) {
                         Log.d("Data aplc loaded", response.body().result.applicant_name);
 
-                        Log.e("required Data",
+                        Log.d("required Data",
                                 "Applicant Name: " + response.body().result.applicant_name
                                         + "\nApplicant Id: " + response.body().applicant_id
                                         + "\nExecutive Id: " + executiveId);
 
-                        SharedPrefAuth.getInstance(getApplicationContext()).setAplcId(getApplicationContext(),
-                                response.body().applicant_id);
+                        SharedPrefApplicantInfo.getInstance(getApplicationContext()).setAplcPanAadharElectric(
+                                getApplicationContext(),
+                                response.body().result.getPan_number(),
+                                response.body().result.getAadhaar_number(),
+                                response.body().result.getElectricity_bill());
 
                         snackBarMsg("Message: " + response.body().msg);
 
@@ -1166,6 +1216,8 @@ public class RegisteredPageActivity extends AppCompatActivity {
                                     "coAplcName: " + NameArray.get(i) +
                                             "\nResiname: " + residVerifArray.get(i) +
                                             "\nOffice: " + officeArray.get(i));
+
+                            int countCoAplc = 0;
 
                             Co_AplicantDataToInsert(
                                     NameArray.get(i),
@@ -1180,7 +1232,8 @@ public class RegisteredPageActivity extends AppCompatActivity {
                                     panArray.get(i),
                                     aadhaarArray.get(i),
                                     electricArray.get(i),
-                                    drivingArray.get(i)
+                                    drivingArray.get(i),
+                                    countCoAplc + 1
                             );
                             count++;
                         }

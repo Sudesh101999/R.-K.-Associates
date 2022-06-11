@@ -2,50 +2,49 @@ package com.rkassociates.UploadAppliDoc.Pages.RegisteredPage.APICall.ReadData;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Applicant {
-    @SerializedName("applicant_id")
-    private String applicantId;
-    @SerializedName("add_data_id")
-    private String addDataId;
-    @SerializedName("executive_id")
-    private String executiveId;
-    @SerializedName("applicant_name")
-    private String applicantName;
-    @SerializedName("residence_verification")
-    private String residenceVerification;
-    @SerializedName("business_verification")
-    private String businessVerification;
-    @SerializedName("residence")
-    private String residence;
-    @SerializedName("work")
-    private String work;
-    @SerializedName("ITR_verification")
-    private String iTRVerification;
-    @SerializedName("TDS_certificate_verification")
-    private String tDSCertificateVerification;
-    @SerializedName("bank_statement_verification")
-    private String bankStatementVerification;
-    @SerializedName("change_property_verification")
-    private String changePropertyVerification;
-    @SerializedName("pan_number")
-    private String panNumber;
-    @SerializedName("aadhaar_number")
-    private String aadhaarNumber;
-    @SerializedName("electricity_bill")
-    private String electricityBill;
-    @SerializedName("driving_license")
-    private String drivingLicense;
-    @SerializedName("applicant_status")
-    private String applicantStatus;
-    @SerializedName("created_date")
-    private String createdDate;
+public class CoApplicantData {
 
-    public String getApplicantId() {
-        return applicantId;
+    @SerializedName("co_applicant_id")
+    public String coApplicantId;
+    @SerializedName("add_data_id")
+    public String addDataId;
+    @SerializedName("co_applicant_name")
+    public String coApplicantName;
+    @SerializedName("residence_verification")
+    public String residenceVerification;
+    @SerializedName("business_verification")
+    public String businessVerification;
+    @SerializedName("residence")
+    public String residence;
+    @SerializedName("work")
+    public String work;
+    @SerializedName("ITR_verification")
+    public String iTRVerification;
+    @SerializedName("TDS_certificate_verification")
+    public String tDSCertificateVerification;
+    @SerializedName("bank_statement_verification")
+    public String bankStatementVerification;
+    @SerializedName("change_property_verification")
+    public String changePropertyVerification;
+    @SerializedName("pan_number")
+    public String panNumber;
+    @SerializedName("aadhaar_number")
+    public String aadhaarNumber;
+    @SerializedName("electricity_bill")
+    public String electricityBill;
+    @SerializedName("driving_license")
+    public String drivingLicense;
+    @SerializedName("co_applicant_status")
+    public String coApplicantStatus;
+    @SerializedName("created_date")
+    public String createdDate;
+
+    public String getCoApplicantId() {
+        return coApplicantId;
     }
 
-    public void setApplicantId(String applicantId) {
-        this.applicantId = applicantId;
+    public void setCoApplicantId(String coApplicantId) {
+        this.coApplicantId = coApplicantId;
     }
 
     public String getAddDataId() {
@@ -56,20 +55,12 @@ public class Applicant {
         this.addDataId = addDataId;
     }
 
-    public String getExecutiveId() {
-        return executiveId;
+    public String getCoApplicantName() {
+        return coApplicantName;
     }
 
-    public void setExecutiveId(String executiveId) {
-        this.executiveId = executiveId;
-    }
-
-    public String getApplicantName() {
-        return applicantName;
-    }
-
-    public void setApplicantName(String applicantName) {
-        this.applicantName = applicantName;
+    public void setCoApplicantName(String coApplicantName) {
+        this.coApplicantName = coApplicantName;
     }
 
     public String getResidenceVerification() {
@@ -168,12 +159,12 @@ public class Applicant {
         this.drivingLicense = drivingLicense;
     }
 
-    public String getApplicantStatus() {
-        return applicantStatus;
+    public String getCoApplicantStatus() {
+        return coApplicantStatus;
     }
 
-    public void setApplicantStatus(String applicantStatus) {
-        this.applicantStatus = applicantStatus;
+    public void setCoApplicantStatus(String coApplicantStatus) {
+        this.coApplicantStatus = coApplicantStatus;
     }
 
     public String getCreatedDate() {

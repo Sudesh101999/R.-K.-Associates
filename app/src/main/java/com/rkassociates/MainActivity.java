@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private CardView docPickerCard, docVeriCard;
     SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
-    private RelativeLayout relativeLayout;
 
     private static final int SELECT_PICTURE = 100;
     private static final String TAG = "MainActivity";
@@ -97,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //assets verif
 //    private ProgressDialog progressdialog;
 
-    private ImageView logoutIv;
+    private ImageView logoutIv,emptyIv;
     private ProgressBar progressBar;
 
     private RecyclerView historyListRecycler;
@@ -168,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     private void initData() {
         logoutIv = findViewById(R.id.logout_iv);
+        emptyIv = findViewById(R.id.empty_recycler_main_iv);
         profileIv = findViewById(R.id.imageView);
         nameTv = findViewById(R.id.user_name_tv);
         docPickerCard = findViewById(R.id.card_doc_add_data);
@@ -178,10 +177,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Getting reference of swipeRefreshLayout and recyclerView
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.main_pending_recycler);
-        relativeLayout = findViewById(R.id.trans_layout);
 
         storageReference = FirebaseStorage.getInstance().getReference();
-
 
         historyListRecycler = findViewById(R.id.history_list_recycler);
 
@@ -193,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         userId = SharedPrefAuth.getInstance(getApplicationContext()).getValueOfUserId(getApplicationContext());
         StorageReference profileRef = storageReference.child(userId + ".jpg");
+        Log.e( "initData: ","UserId: "+userId);
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -369,6 +367,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     snackBarMsg("Exception: "+e.getMessage());
                 }
                 progressBar.setVisibility(View.GONE);
+
+                adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                    @Override
+                    public void onChanged() {
+                        super.onChanged();
+                        checkEmpty();
+                    }
+
+                    @Override
+                    public void onItemRangeInserted(int positionStart, int itemCount) {
+                        super.onItemRangeInserted(positionStart, itemCount);
+                        checkEmpty();
+                    }
+
+                    @Override
+                    public void onItemRangeRemoved(int positionStart, int itemCount) {
+                        super.onItemRangeRemoved(positionStart, itemCount);
+                        checkEmpty();
+                    }
+
+                    void checkEmpty() {
+                        emptyIv.setVisibility(adapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+                        recyclerView.setVisibility(adapter.getItemCount() > 0 ? View.VISIBLE : View.GONE);
+                    }
+                });
             }
 
             @Override

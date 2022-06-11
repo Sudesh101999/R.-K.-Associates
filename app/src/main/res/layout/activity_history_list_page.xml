@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -39,19 +39,16 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/history_list_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:id="@+id/history_list_recycler"/>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_below="@+id/toolbar_upload" />
 
     <ImageView
         android:id="@+id/empty_recycler_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="90dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="90dp"
-        android:scaleType="centerCrop"
+        android:visibility="gone"
         android:src="@drawable/empty" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

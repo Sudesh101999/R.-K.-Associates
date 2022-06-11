@@ -1,13 +1,9 @@
-package com.rkassociates.HistoryList.ApiCalls;
+package com.rkassociates.UploadAppliDoc.Pages.AssetsVerifPage.ApiCalls.ReadData;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class HistoryListResponse {
-
+public class AssetsReadResponse {
     @SerializedName("status")
     @Expose
     private String status;
@@ -16,7 +12,7 @@ public class HistoryListResponse {
     private String message;
     @SerializedName("data")
     @Expose
-    private List<HistoryListResult> data = new ArrayList<>();
+    private AssetsReadData2 data;
 
     public String getStatus() {
         return status;
@@ -34,11 +30,11 @@ public class HistoryListResponse {
         this.message = message;
     }
 
-    public List<HistoryListResult> getData() {
+    public AssetsReadData2 getData() {
         return data;
     }
 
-    public void setData(List<HistoryListResult> data) {
+    public void setData(AssetsReadData2 data) {
         this.data = data;
     }
 }

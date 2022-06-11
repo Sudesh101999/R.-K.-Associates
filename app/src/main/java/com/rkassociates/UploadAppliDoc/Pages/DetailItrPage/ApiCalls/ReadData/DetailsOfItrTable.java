@@ -1,64 +1,93 @@
 package com.rkassociates.UploadAppliDoc.Pages.DetailItrPage.ApiCalls.ReadData;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class DetailsOfItrTable {
 
     @SerializedName("detail_itr_id")
+    @Expose
     private String detailItrId;
     @SerializedName("executive_id")
+    @Expose
     private String executiveId;
     @SerializedName("applicant_id")
+    @Expose
     private String applicantId;
     @SerializedName("assessment_year")
+    @Expose
     private String assessmentYear;
     @SerializedName("gti")
+    @Expose
     private String gti;
     @SerializedName("deduction")
+    @Expose
     private String deduction;
     @SerializedName("nti")
+    @Expose
     private String nti;
     @SerializedName("tax_paid")
+    @Expose
     private String taxPaid;
     @SerializedName("tax_payable")
+    @Expose
     private String taxPayable;
     @SerializedName("tds")
+    @Expose
     private String tds;
     @SerializedName("refund")
+    @Expose
     private String refund;
     @SerializedName("income_from_other_source")
+    @Expose
     private String incomeFromOtherSource;
     @SerializedName("it_wardasperpan")
+    @Expose
     private String itWardasperpan;
     @SerializedName("it_ward_return_filled_in")
+    @Expose
     private String itWardReturnFilledIn;
     @SerializedName("return_should_filled")
+    @Expose
     private String returnShouldFilled;
     @SerializedName("return_where_filled")
+    @Expose
     private String returnWhereFilled;
     @SerializedName("verification")
+    @Expose
     private String verification;
     @SerializedName("e_filling")
+    @Expose
     private String eFilling;
     @SerializedName("date_of_filling")
+    @Expose
     private String dateOfFilling;
     @SerializedName("verified")
+    @Expose
     private String verified;
     @SerializedName("tax_challan")
+    @Expose
     private String taxChallan;
     @SerializedName("bank_name")
+    @Expose
     private String bankName;
     @SerializedName("branch_name")
+    @Expose
     private String branchName;
     @SerializedName("account_type")
+    @Expose
     private String accountType;
     @SerializedName("account_number")
+    @Expose
     private String accountNumber;
     @SerializedName("original_seen")
+    @Expose
     private String originalSeen;
     @SerializedName("details_itr_status")
+    @Expose
     private String detailsItrStatus;
     @SerializedName("created_date")
+    @Expose
     private String createdDate;
 
     public String getDetailItrId() {

@@ -24,6 +24,7 @@ import com.rkassociates.DocPicker.ApiCalling.addDataResponse;
 import com.rkassociates.DocPicker.ApiCalling.bankBranchSpinner;
 import com.rkassociates.DocPicker.ApiCalling.docPickerInterface;
 import com.rkassociates.R;
+import com.rkassociates.SharedPref.SharedPrefApplicantInfo;
 import com.rkassociates.SharedPref.SharedPrefAuth;
 import com.rkassociates.UploadAppliDoc.DocumentationActivity;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
@@ -291,15 +292,15 @@ public class DocPickerActivity extends AppCompatActivity implements View.OnClick
 
                         snackBarMsg(response.body().msg);
 
-                        SharedPrefAuth.getInstance(getApplicationContext()).setAplcName(
+                        SharedPrefApplicantInfo.getInstance(getApplicationContext()).setAplcName(
                                 DocPickerActivity.this,
                                 response.body().result.applicantName);
-                        SharedPrefAuth.getInstance(getApplicationContext()).setCoAplcName(
+                        SharedPrefApplicantInfo.getInstance(getApplicationContext()).setCoAplcName(
                                 DocPickerActivity.this,
                                 response.body().result.coApplicantName);
-                        SharedPrefAuth.getInstance(getApplicationContext()).setAddDataPageId(
+                        SharedPrefApplicantInfo.getInstance(getApplicationContext()).setAplcBankName(
                                 DocPickerActivity.this,
-                                String.valueOf(response.body().add_data_id));
+                                response.body().result.bankName);
 
                         Intent intent = new Intent(DocPickerActivity.this, DocumentationActivity.class);
                         intent.putExtra("activityFor","newData");

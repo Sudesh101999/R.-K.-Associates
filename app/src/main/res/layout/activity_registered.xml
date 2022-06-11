@@ -115,9 +115,10 @@
                                     android:id="@+id/regis_aplc_client_name_et"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:inputType="none"
+                                    android:layout_toEndOf="@+id/name_appli_tv"
                                     android:focusable="false"
-                                    android:layout_toEndOf="@+id/name_appli_tv" />
+                                    android:inputType="textPersonName"
+                                    android:textColor="@color/black" />
                             </RelativeLayout>
                         </androidx.cardview.widget.CardView>
 

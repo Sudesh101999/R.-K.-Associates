@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/co_appli_data_title_tv"
+                    android:id="@+id/profile_co_aplc_data_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
@@ -35,28 +35,29 @@
 
 
                 <ImageView
-                    android:id="@+id/co_applicant_data_edit_iv"
+                    android:id="@+id/profile_co_aplc_data_edit_iv"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_toStartOf="@+id/co_applicant_data_delete_iv"
+                    android:layout_toStartOf="@+id/profile_co_aplc_data_delete_iv"
                     android:src="@drawable/ic_baseline_edit_24" />
 
                 <ImageView
-                    android:id="@+id/co_applicant_data_delete_iv"
+                    android:id="@+id/profile_co_aplc_data_delete_iv"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_toStartOf="@+id/co_applicant_data_expand_iv"
+                    android:layout_toStartOf="@+id/profile_co_aplc_data_expand_iv"
                     android:src="@drawable/ic_baseline_delete_24" />
+
                 <ImageView
-                    android:id="@+id/co_applicant_data_expand_iv"
+                    android:id="@+id/profile_co_aplc_data_expand_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -67,10 +68,10 @@
                     android:src="@drawable/ic_baseline_expand_more_24" />
 
                 <LinearLayout
-                    android:id="@+id/co_applicant_data_expand_layout"
+                    android:id="@+id/profile_co_aplc_data_expand_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/co_appli_data_title_tv"
+                    android:layout_below="@+id/profile_co_aplc_data_title_tv"
                     android:orientation="vertical">
 
                     <androidx.cardview.widget.CardView
@@ -87,431 +88,25 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="20dp"
                             android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp">
+                            android:layout_marginBottom="20dp">
 
                             <TextView
-                                android:id="@+id/name_co_appli_data_tv"
+                                android:id="@+id/name_profile_co_aplc_data_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="Name: "
+                                android:text="Executive Name: "
                                 android:textColor="@color/black"
                                 android:textSize="18sp" />
 
                             <TextView
-                                android:id="@+id/regis_co_appli_data_client_name_et"
+                                android:id="@+id/profile_co_appli__name_et"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:textStyle="bold"
-                                android:layout_toEndOf="@+id/name_co_appli_data_tv" />
-                        </RelativeLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:text="Physical Verification"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="5dp"
-                        app:cardCornerRadius="10dp"
-                        app:cardElevation="8dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:orientation="horizontal"
-                            android:padding="3dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="Residence Verification: "
-                                android:textColor="@color/black"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:id="@+id/regis_co_appli_data_residence_verif_sp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:textStyle="bold"
-                                android:layout_marginStart="10dp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="5dp"
-                        app:cardCornerRadius="10dp"
-                        app:cardElevation="8dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:orientation="horizontal"
-                            android:padding="3dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="Office/Business\nVerification: "
-                                android:textColor="@color/black"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:id="@+id/regis_co_appli_data_office_business_verif_sp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:textStyle="bold"
-                                android:layout_marginStart="10dp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:text="TPC Verification"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="5dp"
-                        app:cardCornerRadius="10dp"
-                        app:cardElevation="8dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:orientation="horizontal"
-                            android:padding="3dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="Residence: "
-                                android:textColor="@color/black"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:id="@+id/regis_co_appli_data_tpc_residence_sp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:textStyle="bold"
-                                android:layout_marginStart="10dp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="5dp"
-                        app:cardCornerRadius="10dp"
-                        app:cardElevation="8dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:orientation="horizontal"
-                            android:padding="3dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="Work: "
-                                android:textColor="@color/black"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:id="@+id/regis_co_appli_data_work_sp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:textStyle="bold"
-                                android:layout_marginStart="10dp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:text="Financial Documents Verification"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="5dp"
-                        app:cardCornerRadius="10dp"
-                        app:cardElevation="8dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:orientation="horizontal"
-                            android:padding="3dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="ITR verification: "
-                                android:textColor="@color/black"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:id="@+id/regis_co_appli_data_itr_verif_sp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:textColor="@color/black"
-                                android:textStyle="bold"
-                                android:layout_marginStart="10dp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="5dp"
-                        app:cardCornerRadius="10dp"
-                        app:cardElevation="8dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:orientation="horizontal"
-                            android:weightSum="2"
-                            android:padding="3dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:text="Payslip Form 16 TDS certificate verification: "
-                                android:textColor="@color/black"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:id="@+id/regis_co_appli_data_payslip_sp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_gravity="center_vertical"
-                                android:textColor="@color/black"
-                                android:textStyle="bold"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginTop="10dp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="5dp"
-                        app:cardCornerRadius="10dp"
-                        app:cardElevation="8dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:orientation="horizontal"
-                            android:weightSum="2"
-                            android:padding="3dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="Bank Statement verificatiokn: "
-                                android:textColor="@color/black"
-                                android:layout_weight="1"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:id="@+id/regis_co_appli_data_bank_statement_verif_sp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_marginStart="10dp"
-                                android:textStyle="bold"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginTop="10dp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:text="Property verification"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="5dp"
-                        app:cardCornerRadius="10dp"
-                        app:cardElevation="8dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:orientation="horizontal"
-                            android:weightSum="2"
-                            android:padding="3dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="Change property verification: "
-                                android:textColor="@color/black"
-                                android:layout_weight="1"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:id="@+id/regis_co_appli_data_change_prop_verif"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:textStyle="bold"
-                                android:layout_marginStart="10dp"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginTop="10dp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:text="KYC verification"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="5dp"
-                        app:cardCornerRadius="10dp"
-                        app:cardElevation="8dp">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp">
-
-                            <TextView
-                                android:id="@+id/regis_co_appli_data_pan_appli_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:text="PAN: "
-                                android:textColor="@color/black"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:id="@+id/regis_co_appli_data_pan_et"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginStart="10dp"
-                                android:textStyle="bold"
-                                android:layout_toEndOf="@+id/regis_co_appli_data_pan_appli_tv" />
+                                android:layout_toEndOf="@+id/name_profile_co_aplc_data_tv" />
                         </RelativeLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -529,27 +124,25 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="20dp"
                             android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp">
+                            android:layout_marginBottom="20dp">
 
                             <TextView
-                                android:id="@+id/regis_co_appli_data_aadhaar_appli_tv"
+                                android:id="@+id/date_profile_co_aplc_data_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="Aadhaar: "
+                                android:text="Date: "
                                 android:textColor="@color/black"
                                 android:textSize="18sp" />
 
                             <TextView
-                                android:id="@+id/regis_co_appli_data_aadhar_et"
+                                android:id="@+id/profile_co_appli_date_et"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:layout_marginStart="10dp"
-                                android:textStyle="bold"
-                                android:layout_toEndOf="@+id/regis_co_appli_data_aadhaar_appli_tv" />
+                                android:layout_toEndOf="@+id/date_profile_co_aplc_data_tv" />
                         </RelativeLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -567,27 +160,25 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="20dp"
                             android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp">
+                            android:layout_marginBottom="20dp">
 
                             <TextView
-                                android:id="@+id/regis_co_appli_data_electricity_appli_tv"
+                                android:id="@+id/aplc_name_profile_co_aplc_data_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="Electricity Bill: "
+                                android:text="Applicant Name: "
                                 android:textColor="@color/black"
                                 android:textSize="18sp" />
 
                             <TextView
-                                android:id="@+id/regis_co_appli_data_electricity_et"
+                                android:id="@+id/profile_co_appli_aplc_name_et"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:layout_marginStart="10dp"
-                                android:textStyle="bold"
-                                android:layout_toEndOf="@+id/regis_co_appli_data_electricity_appli_tv" />
+                                android:layout_toEndOf="@+id/aplc_name_profile_co_aplc_data_tv" />
                         </RelativeLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -597,7 +188,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="15dp"
-                        android:layout_marginBottom="15dp"
+                        android:layout_marginBottom="5dp"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="8dp">
 
@@ -605,29 +196,285 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="20dp"
                             android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp">
+                            android:layout_marginBottom="20dp">
 
                             <TextView
-                                android:id="@+id/regis_co_appli_data_drive_licen_appli_tv"
+                                android:id="@+id/resident_profile_co_aplc_data_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="Driving License: "
+                                android:text="Resident: "
                                 android:textColor="@color/black"
                                 android:textSize="18sp" />
 
                             <TextView
-                                android:id="@+id/regis_co_appli_data_driving_lic_et"
+                                android:id="@+id/profile_co_appli_resident_et"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:layout_marginStart="10dp"
-                                android:textStyle="bold"
-                                android:layout_toEndOf="@+id/regis_co_appli_data_drive_licen_appli_tv" />
+                                android:layout_toEndOf="@+id/resident_profile_co_aplc_data_tv" />
                         </RelativeLayout>
                     </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="5dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="8dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="20dp">
+
+                            <TextView
+                                android:id="@+id/duration_profile_co_aplc_data_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="Duration Of Stay: "
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/profile_co_appli_duration_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/duration_profile_co_aplc_data_tv"
+                                android:text="sdfwef" />
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="5dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="8dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="20dp">
+
+                            <TextView
+                                android:id="@+id/qualification_profile_co_aplc_data_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="Qualification: "
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/profile_co_appli_qualification_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/qualification_profile_co_aplc_data_tv"
+                                android:text="sdfwef" />
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="5dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="8dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="20dp">
+
+                            <TextView
+                                android:id="@+id/business_service_profile_co_aplc_data_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="Business/Service: "
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/profile_co_appli_business_service_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/business_service_profile_co_aplc_data_tv"
+                                android:text="sdfwef" />
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="5dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="8dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="20dp">
+
+                            <TextView
+                                android:id="@+id/business_emp_name_profile_co_aplc_data_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerVertical="true"
+                                android:text="Business/Employee Name: "
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/profile_co_appli_business_emp_name_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/business_emp_name_profile_co_aplc_data_tv"
+                                android:layout_marginTop="5dp"
+                                android:text="aefawefaswef cawec" />
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="5dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="8dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="20dp">
+
+                            <TextView
+                                android:id="@+id/designation_profile_co_aplc_data_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerVertical="true"
+                                android:text="Designation: "
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/profile_co_appli_designation_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@+id/designation_profile_co_aplc_data_tv" />
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="5dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="8dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="20dp">
+
+                            <TextView
+                                android:id="@+id/comme_of_business_profile_co_aplc_data_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerVertical="true"
+                                android:text="Designation: "
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/profile_co_appli_comme_of_business_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@+id/comme_of_business_profile_co_aplc_data_tv" />
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="5dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="8dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="20dp">
+
+                            <TextView
+                                android:id="@+id/remark_profile_co_aplc_data_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerVertical="true"
+                                android:text="Remark: "
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/profile_co_appli_remark_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@+id/remark_profile_co_aplc_data_tv" />
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
                 </LinearLayout>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

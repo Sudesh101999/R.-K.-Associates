@@ -17,6 +17,9 @@
         android:theme="@style/Theme.RKAssociates"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".HistoryDetails.HistoryDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".HistoryList.HistoryListPageActivity"
             android:exported="false" />
         <activity

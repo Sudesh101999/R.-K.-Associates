@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.rkassociates.Common.ApiClient;
 import com.rkassociates.R;
+import com.rkassociates.SharedPref.SharedPrefApplicantInfo;
 import com.rkassociates.SharedPref.SharedPrefAuth;
 import com.rkassociates.SharedPref.SharedPrefDocuComplete;
 import com.rkassociates.UploadAppliDoc.Pages.CurrentResidenceVerifPage.ApiCalls.CurrentResidVerifResponse;
@@ -63,7 +64,12 @@ public class CurrentResidenceVerifActivity extends AppCompatActivity {
 
             if (activityFor.equals("Pending")) {
                 Log.d("AddDataId",addDataIdIntentStr);
+                String aplcNameIntentStr = extras.getString("aplcNameIntentStr");
+                aplcNameEt.setText(aplcNameIntentStr);
                 getDataFromDatabase();
+            } else if (activityFor.equals("newData")) {
+                String aplcName = SharedPrefApplicantInfo.getInstance(getApplicationContext()).getAplcName(getApplicationContext());
+                aplcNameEt.setText(aplcName);
             }
         }
 //        setSpinner();
@@ -99,11 +105,10 @@ public class CurrentResidenceVerifActivity extends AppCompatActivity {
                                 response.body().getData().getCurrentResidenceVerificationTable().getCurrentAddress()
                         );
                     }else{
-                        snackBarMsg("Message: "+response.body().getMessage());
+                        Log.e("onResponse: ","Message: "+response.body().getMessage() );
                     }
                 }catch (Exception e){
                     Log.e("Current residence Verification","Exce: "+e.getMessage());
-                    snackBarMsg("Exception: "+e.getMessage());
                 }
                 progressdialog.dismiss();
             }
@@ -137,7 +142,7 @@ public class CurrentResidenceVerifActivity extends AppCompatActivity {
 
         Log.d( "setDataToText: ","familyMambers: "+familyMambers+"\nearningMembers: "+earningMembers+"\nchildren: "+children);
 
-        aplcNameEt.setText(aplcNameStr);
+//        aplcNameEt.setText(aplcNameStr);
         mobileNuEt.setText(mobileNumber);
         emailIdEt.setText(email);
         dateOfBEt.setText(dobStr);

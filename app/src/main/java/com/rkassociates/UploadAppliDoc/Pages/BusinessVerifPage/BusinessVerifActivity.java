@@ -67,7 +67,6 @@ public class BusinessVerifActivity extends AppCompatActivity {
             activityFor = extras.getString("activityFor");
             addDataIdIntentStr= extras.getString("addDataIdIntentStr");
             //The key argument here must match that used in the other activity
-
             if (activityFor.equals("Pending")) {
                 Log.d("AddDataId",addDataIdIntentStr);
                 getDataFromDatabase();
@@ -362,7 +361,8 @@ public class BusinessVerifActivity extends AppCompatActivity {
             remarkStr = remarkEt.getText().toString();
         }
 
-        dateTimeStr = dateEt.getText().toString()+" "+timeEt.getText().toString();
+        String currentTime = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date());
+        dateTimeStr = dateEt.getText().toString()+" "+currentTime;//timeEt.getText().toString();
 
         insertToDataBase(nameOfBusinessStr,organisatinoTypeStr,nameOfOwnerStr,
                 natureOfBusinessStr,addressStr,permisesBusinessStr,personMetStr,designationStr,officeNoStr,
@@ -381,14 +381,12 @@ public class BusinessVerifActivity extends AppCompatActivity {
         Log.e("testing data", "businessAcctStr: "+businessAcctStr+"\nexecutiveIdStr: "+executiveIdStr+"\naddDataIdIntentStr: "+addDataIdIntentStr );
         progressdialog.setMessage("Inserting Business Verification Page...");
         progressdialog.show();
-        Log.e("TAG", "insertToDataBase: ");
         //insert to database
         BusinessVerifInterface businessVerifInterface = ApiClient.getRetrofitInstance().create(BusinessVerifInterface.class);
-        Call<BusinessVerifResponse> call = businessVerifInterface.
-                businessVerifInsertData(executiveIdStr,addDataIdIntentStr,nameOfBusinessStr,organisatinoTypeStr,nameOfOwnerStr,
-                        natureOfBusinessStr,addressStr,permisesBusinessStr,personMetStr,designationStr,officeNoStr,
-                        commenOfBusinessStr,numberOfEmpStr,headOfDeptStr,businessProvidedDocStr,businessAcctStr,remarkStr,dateTimeStr);
-        
+        Call<BusinessVerifResponse> call = businessVerifInterface.businessVerifInsertData(executiveIdStr,addDataIdIntentStr,
+                nameOfBusinessStr,organisatinoTypeStr,nameOfOwnerStr,natureOfBusinessStr,addressStr,permisesBusinessStr,
+                personMetStr,designationStr,officeNoStr,commenOfBusinessStr,numberOfEmpStr,headOfDeptStr,
+                businessProvidedDocStr,businessAcctStr,remarkStr,dateTimeStr);
         call.enqueue(new Callback<BusinessVerifResponse>() {
             @Override
             public void onResponse(Call<BusinessVerifResponse> call, Response<BusinessVerifResponse> response) {

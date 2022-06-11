@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ import com.rkassociates.R;
 import com.rkassociates.SharedPref.SharedPrefAuth;
 import com.rkassociates.UploadAppliDoc.Pages.DetailItrPage.ApiCalls.DetailsitrInterface;
 import com.rkassociates.UploadAppliDoc.Pages.DetailItrPage.ApiCalls.ReadData.DetailsItrReadResponse;
+import com.rkassociates.UploadAppliDoc.Pages.DetailItrPage.ApiCalls.ReadData.DetailsOfItrTable;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,23 +37,27 @@ import retrofit2.Response;
 
 public class SecondYearFragment extends Fragment {
 
-    private EditText itrGTIFEt,deducationEt,NtiEt,taxPaidEt,taxPayableEt,tdsEt,refundEt,incomeEt,perPanEt,
-            returnFailledEt,returnShouldBeFilledEt,returnWereFilledEt,verificationEt,eFillingNoEt,dateOfFillingEt,
-            taxChallanEt,bankNameEt,acTypeEt,acNumberEt;
-    private Spinner verifiedSp,originalSp;
-    private String activityForStr, addDataIdIntentStr,executiveIdStr,yearStr;
+    private EditText itrGTIFEt, deducationEt, ntiEt, taxPaidEt, taxPayableEt, tdsEt, refundEt, incomeEt, perPanEt,
+            returnFailledEt, returnShouldBeFilledEt, returnWereFilledEt, verificationEt, eFillingNoEt, dateOfFillingEt,
+            taxChallanEt, bankNameEt, branchNameEt, acTypeEt, acNumberEt;
+    private Spinner verifiedSp, originalSp;
+    private String activityForStr, addDataIdIntentStr, executiveIdStr, yearStr;
 
     private dataCollectionIf dataCollectionIf;
+
+    private ProgressBar progressBar;
+    private RelativeLayout doneBtn;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        dataCollectionIf= (dataCollectionIf) context;
+        dataCollectionIf = (dataCollectionIf) context;
     }
 
     public SecondYearFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,7 +79,7 @@ public class SecondYearFragment extends Fragment {
             if (activityForStr.equals("Pending")) {
                 addDataIdIntentStr = extras.getString("addDataIdIntentStr");
                 Log.d("1st Fragment: AddDataId", addDataIdIntentStr);
-                getDataFromDatabase(addDataIdIntentStr,yearStr);
+                getDataFromDatabase(addDataIdIntentStr, yearStr);
             }
         }
         setOperations();
@@ -80,6 +87,7 @@ public class SecondYearFragment extends Fragment {
 
     private void getDataFromDatabase(String addDataIdIntentStr, String yearStr) {
 
+        progressBar.setVisibility(View.VISIBLE);
         DetailsitrInterface detailsitrInterface = ApiClient.getRetrofitInstance().create(DetailsitrInterface.class);
         Call<DetailsItrReadResponse> call = detailsitrInterface.detailsItrGetData(addDataIdIntentStr, executiveIdStr);
 
@@ -87,45 +95,51 @@ public class SecondYearFragment extends Fragment {
             @Override
             public void onResponse(Call<DetailsItrReadResponse> call, Response<DetailsItrReadResponse> response) {
                 try {
-                    if (response.body().getStatus().equals("4")) {
-                        if (response.body().getResult().getDetailsOfItrTable().getAssessmentYear().equals(yearStr)) {
-                            setData(
-                                    response.body().getResult().getDetailsOfItrTable().getGti(),
-                                    response.body().getResult().getDetailsOfItrTable().getDeduction(),
-                                    response.body().getResult().getDetailsOfItrTable().getNti(),
-                                    response.body().getResult().getDetailsOfItrTable().getTaxPaid(),
-                                    response.body().getResult().getDetailsOfItrTable().getTaxPayable(),
-                                    response.body().getResult().getDetailsOfItrTable().getTds(),
-                                    response.body().getResult().getDetailsOfItrTable().getRefund(),
-                                    response.body().getResult().getDetailsOfItrTable().getIncomeFromOtherSource(),
-                                    response.body().getResult().getDetailsOfItrTable().getItWardasperpan(),
-                                    response.body().getResult().getDetailsOfItrTable().getItWardReturnFilledIn(),
-                                    response.body().getResult().getDetailsOfItrTable().getReturnShouldFilled(),
-                                    response.body().getResult().getDetailsOfItrTable().getReturnWhereFilled(),
-                                    response.body().getResult().getDetailsOfItrTable().getVerification(),
-                                    response.body().getResult().getDetailsOfItrTable().geteFilling(),
-                                    response.body().getResult().getDetailsOfItrTable().getDateOfFilling(),
-                                    response.body().getResult().getDetailsOfItrTable().getVerified(),
-                                    response.body().getResult().getDetailsOfItrTable().getTaxChallan(),
-                                    response.body().getResult().getDetailsOfItrTable().getBankName(),
-                                    response.body().getResult().getDetailsOfItrTable().getAccountType(),
-                                    response.body().getResult().getDetailsOfItrTable().getAccountNumber(),
-                                    response.body().getResult().getDetailsOfItrTable().getOriginalSeen()
-                            );
+                    if (response.body().getStatus().equals("success")) {
+                        for (DetailsOfItrTable tableData : response.body().getResult().getDetailsOfItrTable()) {
+                            if (tableData.getAssessmentYear().equals(yearStr)) {
+                                setData(
+                                        tableData.getGti(),
+                                        tableData.getDeduction(),
+                                        tableData.getNti(),
+                                        tableData.getTaxPaid(),
+                                        tableData.getTaxPayable(),
+                                        tableData.getTds(),
+                                        tableData.getRefund(),
+                                        tableData.getIncomeFromOtherSource(),
+                                        tableData.getItWardasperpan(),
+                                        tableData.getItWardReturnFilledIn(),
+                                        tableData.getReturnShouldFilled(),
+                                        tableData.getReturnWhereFilled(),
+                                        tableData.getVerification(),
+                                        tableData.geteFilling(),
+                                        tableData.getDateOfFilling(),
+                                        tableData.getVerified(),
+                                        tableData.getTaxChallan(),
+                                        tableData.getBankName(),
+                                        tableData.getBranchName(),
+                                        tableData.getAccountType(),
+                                        tableData.getAccountNumber(),
+                                        tableData.getOriginalSeen()
+                                );
+                            }
                         }
 
+
                     } else {
-                        Toast.makeText(getContext(), "Message: "+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Message: " + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     Log.e("ITR year 1 Exception", e.getMessage());
                 }
                 Log.d("ITR year 1 response", response.body().getMessage());
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<DetailsItrReadResponse> call, Throwable t) {
                 Log.e("Year 1 onFailure", t.getMessage());
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -135,8 +149,7 @@ public class SecondYearFragment extends Fragment {
                          String tds, String refund, String incomeFromOtherSource, String itWardasperpan,
                          String itWardReturnFilledIn, String returnShouldFilled, String returnWhereFilled,
                          String verification, String geteFilling, String dateOfFilling, String verified,
-                         String taxChallan, String bankName, String accountType, String accountNumber, String originalSeen)
-    {
+                         String taxChallan, String bankName, String branchName, String accountType, String accountNumber, String originalSeen) {
 
 
         ArrayAdapter<CharSequence> yesNoAdapter = ArrayAdapter.
@@ -145,7 +158,7 @@ public class SecondYearFragment extends Fragment {
 
         itrGTIFEt.setText(gti);
         deducationEt.setText(deduction);
-        NtiEt.setText(nti);
+        ntiEt.setText(nti);
         taxPaidEt.setText(taxPaid);
         taxPayableEt.setText(taxPayable);
         tdsEt.setText(tds);
@@ -159,38 +172,40 @@ public class SecondYearFragment extends Fragment {
         eFillingNoEt.setText(geteFilling);
         dateOfFillingEt.setText(dateOfFilling);
 
-        setSpinnerData(verified,yesNoAdapter,verifiedSp);
+        setSpinnerData(verified, yesNoAdapter, verifiedSp);
         taxChallanEt.setText(taxChallan);
         bankNameEt.setText(bankName);
+        branchNameEt.setText(branchName);
         acTypeEt.setText(accountType);
         acNumberEt.setText(accountNumber);
-        setSpinnerData(originalSeen,yesNoAdapter,originalSp);
+        setSpinnerData(originalSeen, yesNoAdapter, originalSp);
     }
 
-    private void setSpinnerData(String compareValue, ArrayAdapter<CharSequence> adapter, Spinner mSpinner){
+    private void setSpinnerData(String compareValue, ArrayAdapter<CharSequence> adapter, Spinner mSpinner) {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(adapter);
         if (compareValue != null) {
             int spinnerPosition = adapter.getPosition(compareValue);
-            mSpinner.setSelection(spinnerPosition,true);
+            mSpinner.setSelection(spinnerPosition, true);
         }
     }
 
-    final Calendar myCalendar= Calendar.getInstance();
-    private void updateLabel(){
-        String myFormat="dd-MM-yyyy";
-        SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.getDefault());
+    final Calendar myCalendar = Calendar.getInstance();
+
+    private void updateLabel() {
+        String myFormat = "dd-MM-yyyy";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.getDefault());
         dateOfFillingEt.setText(dateFormat.format(myCalendar.getTime()));
     }
 
     private void setOperations() {
 
-        DatePickerDialog.OnDateSetListener date =new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH,month);
-                myCalendar.set(Calendar.DAY_OF_MONTH,day);
+                myCalendar.set(Calendar.MONTH, month);
+                myCalendar.set(Calendar.DAY_OF_MONTH, day);
                 updateLabel();
             }
         };
@@ -210,8 +225,8 @@ public class SecondYearFragment extends Fragment {
         originalSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (!(originalSp.getSelectedItemPosition() ==0)){
-                    saveData();
+                if (!(originalSp.getSelectedItemPosition() == 0)) {
+                    validate();
                 }
             }
 
@@ -222,63 +237,195 @@ public class SecondYearFragment extends Fragment {
         });
     }
 
-    //set data year wise
-    private void saveData(){
-        dataCollectionIf dataCollectionIf = (dataCollectionIf) getActivity();
-        dataCollectionIf.sendYear(
-                itrGTIFEt.getText().toString(),
-                deducationEt.getText().toString(),
-                NtiEt.getText().toString(),
-                taxPaidEt.getText().toString(),
-                taxPayableEt.getText().toString(),
-                tdsEt.getText().toString(),
-                refundEt.getText().toString(),
-                incomeEt.getText().toString(),
-                perPanEt.getText().toString(),
-                returnFailledEt.getText().toString(),
-                returnShouldBeFilledEt.getText().toString(),
-                returnWereFilledEt.getText().toString(),
-                verificationEt.getText().toString(),
-                eFillingNoEt.getText().toString(),
-                dateOfFillingEt.getText().toString(),
-                verifiedSp.getSelectedItem().toString(),
-                taxChallanEt.getText().toString(),
-                bankNameEt.getText().toString(),
-                acTypeEt.getText().toString(),
-                acNumberEt.getText().toString(),
-                originalSp.getSelectedItem().toString()
-        );
-       /*
-        dataCollectionIf.thirdYear(
+    private void validate() {
+        String itrGTIFStr, deducationStr, NtiStr, taxPaidStr, taxPayableStr, tdsStr, refundStr, incomeStr, perPanStr,
+                returnFailledStr, returnShouldBeFilledStr, returnWereFilledStr, verificationStr, eFillingNoStr, dateOfFillingStr,
+                verifiedStr, taxChallanStr, bankNameStr, branchNameStr, acTypeStr, acNumberStr, originalStr;
 
-        );*/
+        Log.d("TAG", "validate: ");
+        if (itrGTIFEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " GTI getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            itrGTIFStr = itrGTIFEt.getText().toString();
+
+        if (deducationEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " Deduction getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            deducationStr = deducationEt.getText().toString();
+
+        if (ntiEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " NIT getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            NtiStr = ntiEt.getText().toString();
+
+        if (taxPaidEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " Tax PAID getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            taxPaidStr = taxPaidEt.getText().toString();
+
+        if (taxPayableEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " Tax payable getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            taxPayableStr = taxPayableEt.getText().toString();
+
+        if (tdsEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " TDS getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            tdsStr = tdsEt.getText().toString();
+
+
+        if (refundEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " Refund getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            refundStr = refundEt.getText().toString();
+
+
+        if (incomeEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " Income From other source getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            incomeStr = incomeEt.getText().toString();
+
+        if (perPanEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " It ward as per PAN getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            perPanStr = perPanEt.getText().toString();
+
+        if (returnFailledEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " It ward return Filled in getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            returnFailledStr = returnFailledEt.getText().toString();
+
+        if (returnShouldBeFilledEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " Form # in which returns should be filled getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            returnShouldBeFilledStr = returnShouldBeFilledEt.getText().toString();
+
+        if (returnWereFilledEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " Form # in which return were filled getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            returnWereFilledStr = returnWereFilledEt.getText().toString();
+
+        if (verificationEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " Verification getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            verificationStr = verificationEt.getText().toString();
+
+        if (eFillingNoEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " E-Filling/Account Number getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            eFillingNoStr = eFillingNoEt.getText().toString();
+
+        if (dateOfFillingEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " Date of Filling getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            dateOfFillingStr = dateOfFillingEt.getText().toString();
+
+        if (verifiedSp.getSelectedItemPosition() == 0) {
+            Toast.makeText(getContext(), yearStr + " Verified getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            verifiedStr = verifiedSp.getSelectedItem().toString();
+
+        if (taxChallanEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " Tax challan getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            taxChallanStr = taxChallanEt.getText().toString();
+
+        if (bankNameEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " Bank Name getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            bankNameStr = bankNameEt.getText().toString();
+
+        if (branchNameEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " Branch Name getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            branchNameStr = branchNameEt.getText().toString();
+
+        if (acTypeEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " Account Type getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            acTypeStr = acTypeEt.getText().toString();
+
+        if (acNumberEt.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), yearStr + " Account number getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            acNumberStr = acNumberEt.getText().toString();
+
+        if (originalSp.getSelectedItemPosition() == 0) {
+            Toast.makeText(getContext(), yearStr + " Original Seen getting empty...!!!", Toast.LENGTH_SHORT).show();
+            return;
+        } else
+            originalStr = originalSp.getSelectedItem().toString();
+
+        saveData(itrGTIFStr, deducationStr, NtiStr, taxPaidStr, taxPayableStr, tdsStr, refundStr, incomeStr, perPanStr,
+                returnFailledStr, returnShouldBeFilledStr, returnWereFilledStr, verificationStr, eFillingNoStr, dateOfFillingStr,
+                verifiedStr, taxChallanStr, bankNameStr, branchNameStr, acTypeStr, acNumberStr, originalStr);
+    }
+
+    //set data year wise
+    private void saveData(String itrGTIFStr, String deducationStr, String ntiStr, String taxPaidStr, String taxPayableStr, String tdsStr, String refundStr, String incomeStr, String perPanStr, String returnFailledStr, String returnShouldBeFilledStr, String returnWereFilledStr, String verificationStr, String eFillingNoStr, String dateOfFillingStr, String verifiedStr, String taxChallanStr, String bankNameStr, String branchNameStr, String acTypeStr, String acNumberStr, String originalStr) {
+
+        Log.d("Second year Fragment", "saveData Info: " + itrGTIFStr + "\n" + deducationStr + "\n" + ntiStr + "\n" + taxPaidStr);
+        Toast.makeText(getContext(), "Year "+yearStr+" Data collected.", Toast.LENGTH_SHORT).show();
+        dataCollectionIf dataCollectionIf = (dataCollectionIf) getActivity();
+        dataCollectionIf.secondYear(
+                itrGTIFStr, deducationStr, ntiStr, taxPaidStr, taxPayableStr, tdsStr, refundStr, incomeStr, perPanStr,
+                returnFailledStr, returnShouldBeFilledStr, returnWereFilledStr, verificationStr, eFillingNoStr, dateOfFillingStr,
+                verifiedStr, taxChallanStr, bankNameStr, branchNameStr, acTypeStr, acNumberStr, originalStr, true
+        );
     }
 
     private void intData(View view) {
 
-        itrGTIFEt=view.findViewById(R.id.itr_detail_f2_gti_et);
-        deducationEt=view.findViewById(R.id.itr_detail_f2_deduction_et);
-        NtiEt=view.findViewById(R.id.itr_detail_f2_nti_et);
-        taxPaidEt=view.findViewById(R.id.itr_detail_f2_tax_paid_et);
-        taxPayableEt=view.findViewById(R.id.itr_detail_f2_tax_payable_et);
-        tdsEt=view.findViewById(R.id.itr_detail_f2_tds_et);
-        refundEt=view.findViewById(R.id.itr_detail_f2_refunds_et);
-        incomeEt=view.findViewById(R.id.itr_detail_f2_income_source_et);
-        perPanEt=view.findViewById(R.id.itr_detail_f2_wardperpan_et);
-        returnFailledEt=view.findViewById(R.id.itr_detail_f2_ward_returns_filled_et);
-        returnShouldBeFilledEt=view.findViewById(R.id.itr_detail_f2_form_return_should_filled_et);
-        returnWereFilledEt=view.findViewById(R.id.itr_detail_f2_form_return_were_failed_et);
-        verificationEt=view.findViewById(R.id.itr_detail_f2_verification_et);
-        eFillingNoEt=view.findViewById(R.id.itr_detail_f2_ack_no_et);
-        dateOfFillingEt=view.findViewById(R.id.itr_detail_f2_date_filling_et);
-        verifiedSp=view.findViewById(R.id.itr_detail_f2_verified_sp);
-        taxChallanEt=view.findViewById(R.id.itr_detail_f2_challan_et);
-        bankNameEt=view.findViewById(R.id.itr_detail_f2_bank_name_et);
-        acTypeEt=view.findViewById(R.id.itr_detail_f2_ac_type_et);
-        acNumberEt=view.findViewById(R.id.itr_detail_f2_ac_number_et);
-        originalSp=view.findViewById(R.id.itr_detail_f2_original_seen_sp);
-        executiveIdStr = SharedPrefAuth.getInstance(getContext()).getValueOfUserId(getContext());
+        itrGTIFEt = view.findViewById(R.id.itr_detail_f2_gti_et);
+        deducationEt = view.findViewById(R.id.itr_detail_f2_deduction_et);
+        ntiEt = view.findViewById(R.id.itr_detail_f2_nti_et);
+        taxPaidEt = view.findViewById(R.id.itr_detail_f2_tax_paid_et);
+        taxPayableEt = view.findViewById(R.id.itr_detail_f2_tax_payable_et);
+        tdsEt = view.findViewById(R.id.itr_detail_f2_tds_et);
+        refundEt = view.findViewById(R.id.itr_detail_f2_refunds_et);
+        incomeEt = view.findViewById(R.id.itr_detail_f2_income_source_et);
+        perPanEt = view.findViewById(R.id.itr_detail_f2_wardperpan_et);
+        returnFailledEt = view.findViewById(R.id.itr_detail_f2_ward_returns_filled_et);
+        returnShouldBeFilledEt = view.findViewById(R.id.itr_detail_f2_form_return_should_filled_et);
+        returnWereFilledEt = view.findViewById(R.id.itr_detail_f2_form_return_were_failed_et);
+        verificationEt = view.findViewById(R.id.itr_detail_f2_verification_et);
+        eFillingNoEt = view.findViewById(R.id.itr_detail_f2_ack_no_et);
+        dateOfFillingEt = view.findViewById(R.id.itr_detail_f2_date_filling_et);
+        verifiedSp = view.findViewById(R.id.itr_detail_f2_verified_sp);
+        taxChallanEt = view.findViewById(R.id.itr_detail_f2_challan_et);
+        bankNameEt = view.findViewById(R.id.itr_detail_f2_bank_name_et);
+        branchNameEt = view.findViewById(R.id.itr_detail_f2_branch_name_et);
+        acTypeEt = view.findViewById(R.id.itr_detail_f2_ac_type_et);
+        acNumberEt = view.findViewById(R.id.itr_detail_f2_ac_number_et);
+        originalSp = view.findViewById(R.id.itr_detail_f2_original_seen_sp);
+        progressBar = view.findViewById(R.id.progress_itr_details2);
+        doneBtn = view.findViewById(R.id.fg2_done_btn);
 
+
+        executiveIdStr = SharedPrefAuth.getInstance(getContext()).getValueOfUserId(getContext());
         yearStr = getArguments().getString("year");
+
+        Log.d("Frg 2 intData", "Year: " + yearStr);
     }
 }

@@ -21,11 +21,13 @@ public interface dataCollectionIf {
             String verifiedY1,
             String taxChallanY1,
             String bankNameY1,
+            String branchNameY1,
             String acTypeY1,
             String acNumberY1,
-            String originalSeenY1
+            String originalSeenY1,
+            boolean dataCollectedFrg1
     );
-    void sendYear(
+    void secondYear(
             String gtiY2,
             String deductionY2,
             String ntiY2,
@@ -44,9 +46,11 @@ public interface dataCollectionIf {
             String verifiedY2,
             String taxChallanY2,
             String bankNameY2,
+            String branchNameY2,
             String acTypeY2,
             String acNumberY2,
-            String originalSeenY2
+            String originalSeenY2,
+            boolean dataCollectedFrg2
     );
     void thirdYear(
             String gtiY3,
@@ -67,8 +71,10 @@ public interface dataCollectionIf {
             String verifiedY3,
             String taxChallanY3,
             String bankNameY3,
+            String branchNameY3,
             String acTypeY3,
             String acNumberY3,
-            String originalSeenY3
+            String originalSeenY3,
+            boolean dataCollectedFrg3
     );
 }

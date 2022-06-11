@@ -15,12 +15,12 @@ public interface DetailsitrInterface {
     Call<DetailsItrResponse> detailsItrInsertData(
             @Field("executive_id") String executive_id,
             @Field("add_data_id") String add_data_id,
-            @Field("aplc_name") String aplc_name,
             @Field("assessment_year") String assessment_year,
             @Field("gti") String gti,
             @Field("deduction") String deduction,
             @Field("nti") String nti,
             @Field("tax_paid") String tax_paid,
+            @Field("tax_payable") String tax_payable,
             @Field("tds") String tds,
             @Field("refund") String refund,
             @Field("income_from_other_source") String income_from_other_source,

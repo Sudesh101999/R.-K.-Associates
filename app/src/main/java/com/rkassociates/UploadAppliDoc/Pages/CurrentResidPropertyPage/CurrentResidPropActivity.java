@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.rkassociates.Common.ApiClient;
 import com.rkassociates.R;
+import com.rkassociates.SharedPref.SharedPrefApplicantInfo;
 import com.rkassociates.SharedPref.SharedPrefAuth;
 import com.rkassociates.SharedPref.SharedPrefDocuComplete;
 import com.rkassociates.UploadAppliDoc.Pages.CurrentResidPropertyPage.APiCalls.CRPInterface;
@@ -55,10 +56,10 @@ public class CurrentResidPropActivity extends AppCompatActivity {
 
     private ArrayList<String> interiorArray = new ArrayList<>();
     private ArrayList<String> exteriorArray = new ArrayList<>();
-    ArrayList<String> floorsArray,durationArray;
+    ArrayList<String> floorsArray, durationArray;
     String executiveIdStr;
 
-    private String activityFor,addDataIdIntentStr;
+    private String activityFor, addDataIdIntentStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +75,16 @@ public class CurrentResidPropActivity extends AppCompatActivity {
         if (extras != null) {
             activityFor = extras.getString("activityFor");
             //The key argument here must match that used in the other activity
-            addDataIdIntentStr= extras.getString("addDataIdIntentStr");
+            addDataIdIntentStr = extras.getString("addDataIdIntentStr");
 
             if (activityFor.equals("Pending")) {
-                Log.d("AddDataId",addDataIdIntentStr);
+                Log.d("AddDataId", addDataIdIntentStr);
+                String aplcNameIntentStr = extras.getString("aplcNameIntentStr");
+                aplcNameEt.setText(aplcNameIntentStr);
                 getDataFromDatabase();
+            } else if (activityFor.equals("newData")) {
+                String aplcName = SharedPrefApplicantInfo.getInstance(getApplicationContext()).getAplcName(getApplicationContext());
+                aplcNameEt.setText(aplcName);
             }
         }
 
@@ -93,7 +99,7 @@ public class CurrentResidPropActivity extends AppCompatActivity {
         progressdialog.show();
 
         CRPInterface crpInterface = ApiClient.getRetrofitInstance().create(CRPInterface.class);
-        Call<CRPReadResponse> call = crpInterface.CRPReadData(executiveIdStr,executiveIdStr);
+        Call<CRPReadResponse> call = crpInterface.CRPReadData(addDataIdIntentStr, executiveIdStr);
 
         call.enqueue(new Callback<CRPReadResponse>() {
             @Override
@@ -118,13 +124,13 @@ public class CurrentResidPropActivity extends AppCompatActivity {
                                 response.body().getData().getCurrentResidencePropertyTable().getExteriors(),
                                 response.body().getData().getCurrentResidencePropertyTable().getRemark()
                         );
-                    }else{
-                        snackBarMsg("get Message: "+response.body().getMessage());
+                    } else {
+                        snackBarMsg("get Message: " + response.body().getMessage());
                     }
-                    Log.d("get CurrentResidProp","Status: "+response.body().getStatus());
+                    Log.d("get CurrentResidProp", "Status: " + response.body().getStatus());
 
-                }catch (Exception e){
-                    Log.e("get CurrentResidProp","Exception: "+e.getMessage());
+                } catch (Exception e) {
+                    Log.e("get CurrentResidProp", "Exception: " + e.getMessage());
                 }
                 progressdialog.dismiss();
             }
@@ -132,8 +138,8 @@ public class CurrentResidPropActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<CRPReadResponse> call, Throwable t) {
                 progressdialog.dismiss();
-                snackBarMsg("Message: "+t.getMessage());
-                Log.e("Current Residence prop",t.getMessage());
+                snackBarMsg("Message: " + t.getMessage());
+                Log.e("Current Residence prop", t.getMessage());
             }
         });
     }
@@ -142,8 +148,6 @@ public class CurrentResidPropActivity extends AppCompatActivity {
                                String dimenension, String numberOfFloors, String durationOfStay, String societyNameBoard,
                                String doorNamePlate, String utilityBills, String classOfLocality, String interiors,
                                String exteriors, String remark) {
-
-        Toast.makeText(this, "getting remarking: "+remark, Toast.LENGTH_SHORT).show();
 
         ArrayAdapter<CharSequence> propertyStatusAdapter = ArrayAdapter.
                 createFromResource(CurrentResidPropActivity.this,
@@ -155,7 +159,10 @@ public class CurrentResidPropActivity extends AppCompatActivity {
                 createFromResource(CurrentResidPropActivity.this,
                         R.array.yes_no_sp, android.R.layout.simple_spinner_item);
         //dimension
-        String[] separatedDimension = dimenension.split(" (approx) ");
+        String[] separatedDimension = dimenension.split("\\s+");
+        String dimension1 = separatedDimension[0];
+        String dimension2 = separatedDimension[1] + " " + separatedDimension[2];
+        Log.d("separatedDimension: ", "Dimension: " + dimension1 + "BHK=> " + dimension2);
         ArrayAdapter<CharSequence> dimensionAdapter = ArrayAdapter.
                 createFromResource(CurrentResidPropActivity.this,
                         R.array.dimension_sp, android.R.layout.simple_spinner_item);
@@ -168,54 +175,57 @@ public class CurrentResidPropActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> uilityAdapter = ArrayAdapter.
                 createFromResource(CurrentResidPropActivity.this,
                         R.array.utility_bill_sp, android.R.layout.simple_spinner_item);
+
         ArrayAdapter<CharSequence> localityAdapter = ArrayAdapter.
                 createFromResource(CurrentResidPropActivity.this,
                         R.array.locality_sp, android.R.layout.simple_spinner_item);
 
-        aplcNameEt.setText(aplcNameStr);
+//        aplcNameEt.setText(aplcNameStr);
         remarkEt.setText(remark);
-        setSpinnerData(propertyStatus,propertyStatusAdapter,propertStateSp);
-        setSpinnerData(typeOfUnit,propertyStatusAdapter,typeUnitSp);
-        setSpinnerData(accessibility,accessibilityAdapter,accessibilitySp);
-        setSpinnerData(addressConfirmed,yesNoAdapter,addresConfimedSp);
-        dimentionEt.setText(separatedDimension[0]);
-        setSpinnerData(separatedDimension[1],dimensionAdapter,dimentionFitSp);
-        setSpinnerData(societyNameBoard,yesNoAdapter,societyNameBoardSp);
-        setSpinnerData(doorNamePlate,yesNoAdapter,doorNamePlateSp);
-        setSpinnerData(numberOfFloors,noOfFloorAdapter,noOfFloorsSp);
-        setSpinnerData(durationOfStay,durationAdapter,durationOfStaySp);
-        setSpinnerData(utilityBills,uilityAdapter,utilityBillsSP);
-        setSpinnerData(classOfLocality,localityAdapter,localitySp);
+        setSpinnerData(propertyStatus, propertyStatusAdapter, propertStateSp);
+        setSpinnerData(typeOfUnit, propertyStatusAdapter, typeUnitSp);
+        setSpinnerData(accessibility, accessibilityAdapter, accessibilitySp);
+        setSpinnerData(addressConfirmed, yesNoAdapter, addresConfimedSp);
+        dimentionEt.setText(dimension1);
+        setSpinnerData(dimension2, dimensionAdapter, dimentionFitSp);
+        setSpinnerData(societyNameBoard, yesNoAdapter, societyNameBoardSp);
+        setSpinnerData(doorNamePlate, yesNoAdapter, doorNamePlateSp);
+        setSpinnerData(numberOfFloors, noOfFloorAdapter, noOfFloorsSp);
+        setSpinnerData(durationOfStay, durationAdapter, durationOfStaySp);
+        setSpinnerData(utilityBills, uilityAdapter, utilityBillsSP);
+        setSpinnerData(classOfLocality, localityAdapter, localitySp);
 
-        String[] interiorsList = interiors.split(", ");
-        for (String s: interiorsList){
-            if (s.equals("Painted")) {
+        String[] interiorsList = interiors.split("[,]", 0);
+        Log.d("interiorsList: ", Arrays.toString(interiorsList));
+        for (String s : interiorsList) {
+            if (s.equals(" Painted")) {
                 interiorsPaintedCb.setChecked(true);
-            } else if (s.equals("Clean")) {
+            } else if (s.equals(" Clean")) {
                 interiorsCleanCb.setChecked(true);
-            } else if (s.equals("Carpet")) {
+            } else if (s.equals(" Carpet")) {
                 interiorsCarpetCb.setChecked(true);
-            } else if (s.equals("Sofa")) {
+            } else if (s.equals(" Sofa")) {
                 interiorsSofaCb.setChecked(true);
-            } else if (s.equals("Curtain")) {
+            } else if (s.equals(" Curtain")) {
                 interiorsCurtainCb.setChecked(true);
-            } else if (s.equals("Showcase")) {
+            } else if (s.equals(" Showcase")) {
                 interiorsShowcaseCb.setChecked(true);
             }
         }
-        String[] exteriorList = exteriors.split(", ");
-        for (String s: exteriorList){
-            if (s.equals("Garden")) {
+
+        String[] exteriorList = exteriors.split("[,]", 0);
+        for (String s : exteriorList) {
+            if (s.equals(" Garden")) {
                 exteriorsGardenCb.setChecked(true);
-            } else if (s.equals("Elevator")) {
+            } else if (s.equals(" Elevator")) {
                 exteriorsElevatorCb.setChecked(true);
-            } else if (s.equals("Car parking")) {
+            } else if (s.equals(" Car parking")) {
                 exteriorsCarParkingCb.setChecked(true);
-            } else if (s.equals("Security")) {
+            } else if (s.equals(" Security")) {
                 exteriorsSecurityCb.setChecked(true);
-            } else if (s.equals("swimming poa")) {
+            } else if (s.equals(" Swimming Pool")) {
                 exteriorsSwimmingCb.setChecked(true);
-            } else if (s.equals("intercom")) {
+            } else if (s.equals(" Intercom")) {
                 exteriorsIntercomCb.setChecked(true);
             }
         }
@@ -223,12 +233,12 @@ public class CurrentResidPropActivity extends AppCompatActivity {
 
     }
 
-    private void setSpinnerData(String compareValue, ArrayAdapter<CharSequence> adapter, Spinner mSpinner){
+    private void setSpinnerData(String compareValue, ArrayAdapter<CharSequence> adapter, Spinner mSpinner) {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(adapter);
         if (compareValue != null) {
             int spinnerPosition = adapter.getPosition(compareValue);
-            mSpinner.setSelection(spinnerPosition,true);
+            mSpinner.setSelection(spinnerPosition, true);
         }
     }
 
@@ -459,15 +469,15 @@ public class CurrentResidPropActivity extends AppCompatActivity {
         /*String propertyStatusStr,typeOfUnitStr,accessiblityStr,addConfirmStr,dimensionStr,noOfFloorStr,
                 durationStr,soclietyNameStr,doorNameStr,utilityBillStr,localityStr,propertyInteriorsStr,dateStr,timeStr;*/
 
-        String aplcName = "",propertyStatusStr = "", typeOfUnitStr = "", accessiblityStr = "",
+        String aplcName = "", propertyStatusStr = "", typeOfUnitStr = "", accessiblityStr = "",
                 addConfirmStr = "", dimensionStr = "", noOfFloorStr = "", durationStr = "", soclietyNameStr = "",
                 doorNameStr = "", utilityBillStr = "", localityStr = "", propertyInteriorsStr = "", propertyExteriorsStr = "",
-                dateTimeStr="", remarkStr = "";
+                dateTimeStr = "", remarkStr = "";
 
         if (aplcNameEt.getText().toString().isEmpty()) {
             snackBarMsg("Applicant name getting empty...!!!");
             return;
-        }else
+        } else
             aplcName = aplcNameEt.getText().toString();
 
         if (propertStateSp.getSelectedItemPosition() == 0) {
@@ -498,7 +508,7 @@ public class CurrentResidPropActivity extends AppCompatActivity {
             snackBarMsg("Dimension...!!!");
             return;
         } else
-            dimensionStr = dimentionEt.getText().toString() + " (approx) " + dimentionFitSp.getSelectedItem().toString();
+            dimensionStr = dimentionEt.getText().toString() + " " + dimentionFitSp.getSelectedItem().toString();
 
         if (noOfFloorsSp.getSelectedItemPosition() == 0) {
             snackBarMsg("No. Of Floors...!!!");
@@ -540,6 +550,8 @@ public class CurrentResidPropActivity extends AppCompatActivity {
             snackBarMsg("Select Interiors...!!!");
             return;
         } else {
+            interiorArray.add(0, " ");
+            interiorArray.add(interiorArray.size(), " ");
             String[] interiorsList = Arrays.copyOf(interiorArray.toArray(), interiorArray.size(), String[].class);
             propertyInteriorsStr = Arrays.toString(interiorsList);
         }
@@ -548,16 +560,19 @@ public class CurrentResidPropActivity extends AppCompatActivity {
             snackBarMsg("Select Exterior...!!!");
             return;
         } else {
+            exteriorArray.add(0, " ");
+            exteriorArray.add(exteriorArray.size(), " ");
             String[] exteriorList = Arrays.copyOf(exteriorArray.toArray(), exteriorArray.size(), String[].class);
             propertyExteriorsStr = Arrays.toString(exteriorList);
         }
 
         remarkStr = remarkEt.getText().toString();
-        dateTimeStr = dateEt.getText().toString() +" "+ timeEt.getText().toString();
+        dateTimeStr = dateEt.getText().toString() + " " + timeEt.getText().toString();
 //        Toast.makeText(this, "propertyInteriorsStr: "+propertyInteriorsStr, Toast.LENGTH_SHORT).show();
 
+        Log.d("checkValidation:", " dimensionStr: " + dimensionStr);
 
-        submitData(executiveIdStr,aplcName, propertyStatusStr, typeOfUnitStr, accessiblityStr,
+        submitData(executiveIdStr, aplcName, propertyStatusStr, typeOfUnitStr, accessiblityStr,
                 addConfirmStr, dimensionStr, noOfFloorStr, durationStr, soclietyNameStr,
                 doorNameStr, utilityBillStr, localityStr, propertyInteriorsStr, propertyExteriorsStr,
                 dateTimeStr, remarkStr);
@@ -571,11 +586,7 @@ public class CurrentResidPropActivity extends AppCompatActivity {
         snackbar.show();
     }
 
-    private void submitData(String executiveIdStr,String aplcNameStr, String propertyStatusStr, String typeOfUnitStr,
-                            String accessiblityStr, String addConfirmStr, String dimensionStr, String noOfFloorStr,
-                            String durationStr, String soclietyNameStr, String doorNameStr, String utilityBillStr,
-                            String localityStr, String propertyInteriorsStr, String propertyExteriorsStr,
-                            String dateTimeStr, String remarkStr) {
+    private void submitData(String executiveIdStr, String aplcName, String propertyStatusStr, String typeOfUnitStr, String accessiblityStr, String addConfirmStr, String dimensionStr, String noOfFloorStr, String durationStr, String soclietyNameStr, String doorNameStr, String utilityBillStr, String localityStr, String propertyInteriorsStr, String propertyExteriorsStr, String dateTimeStr, String remarkStr) {
 
         progressdialog.show();
 
@@ -585,7 +596,7 @@ public class CurrentResidPropActivity extends AppCompatActivity {
                 + "\n" + propertyInteriorsStr + "\n" + dateTimeStr, Toast.LENGTH_SHORT).show();*/
 
         CRPInterface crpInterface = ApiClient.getRetrofitInstance().create(CRPInterface.class);
-        Call<CRPResponse> call = crpInterface.CRPInsertData(executiveIdStr, addDataIdIntentStr,aplcNameStr, propertyStatusStr, typeOfUnitStr, accessiblityStr,
+        Call<CRPResponse> call = crpInterface.CRPInsertData(executiveIdStr, addDataIdIntentStr, propertyStatusStr, typeOfUnitStr, accessiblityStr,
                 addConfirmStr, dimensionStr, noOfFloorStr, durationStr, soclietyNameStr,
                 doorNameStr, utilityBillStr, localityStr, propertyInteriorsStr, propertyExteriorsStr, remarkStr,
                 dateTimeStr);
@@ -598,12 +609,12 @@ public class CurrentResidPropActivity extends AppCompatActivity {
                         Toast.makeText(CurrentResidPropActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
                         SharedPrefDocuComplete.getInstance(getApplicationContext()).setCurrentResidProp(true);
                         CurrentResidPropActivity.super.onBackPressed();
-                    }else{
-                        snackBarMsg("Message: "+response.body().getMsg());
+                    } else {
+                        snackBarMsg("Message: " + response.body().getMsg());
                     }
-                    Log.d("CurrentResidProp","Status: "+response.body().getStatus());
-                }catch (Exception e){
-                    Log.e("CurrentResidProp","Exception: "+e.getMessage());
+                    Log.d("CurrentResidProp", "Status: " + response.body().getStatus());
+                } catch (Exception e) {
+                    Log.e("CurrentResidProp", "Exception: " + e.getMessage());
                 }
                 progressdialog.dismiss();
             }
@@ -611,7 +622,7 @@ public class CurrentResidPropActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<CRPResponse> call, Throwable t) {
                 progressdialog.dismiss();
-                Log.e("Current Residence prop",t.getMessage());
+                Log.e("Current Residence prop", t.getMessage());
             }
         });
     }

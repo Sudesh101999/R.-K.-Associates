@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -69,7 +68,6 @@ public class DocumentationActivity extends AppCompatActivity {
                 pendingListStr= extras.getString("pendingList");
                 Log.d("pendingList",pendingListStr);
                 setCompletedLayoutborder(pendingListStr);
-                Toast.makeText(this, "Aplc Name: "+aplcNameIntentStr, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -260,6 +258,7 @@ public class DocumentationActivity extends AppCompatActivity {
     private void intentToAnotherActivity(Intent intent) {
         intent.putExtra("activityFor",activityFor);
         intent.putExtra("addDataIdIntentStr",addDataIdIntentStr);
+        intent.putExtra("aplcNameIntentStr",aplcNameIntentStr);
         startActivity(intent);
     }
 

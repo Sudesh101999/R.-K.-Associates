@@ -89,20 +89,6 @@ public class SharedPrefAuth {
         editor.apply();
     }
 
-    public void setAplcName(Context context, String aplcNameStr) {
-        SharedPreferences sharedPreferences =context.getSharedPreferences(SHARED_PREF_NAME,Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor =sharedPreferences.edit();
-        editor.putString(KEY_APLC_NAME,aplcNameStr);
-        editor.apply();
-    }
-
-    public String getAplcName(Context context) {
-        SharedPreferences settings;
-        String text;
-        settings = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        text = settings.getString(KEY_APLC_NAME, null);
-        return text;
-    }
     public void setAplcId(Context context, String aplcIdStr) {
         SharedPreferences sharedPreferences =context.getSharedPreferences(SHARED_PREF_NAME,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor =sharedPreferences.edit();

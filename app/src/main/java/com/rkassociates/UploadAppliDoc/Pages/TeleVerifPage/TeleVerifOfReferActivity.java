@@ -132,8 +132,8 @@ public class TeleVerifOfReferActivity extends AppCompatActivity {
         String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         String currentTime = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date());
 
-        dateEt.setText(currentDate);
         timeEt.setText(currentTime);
+        dateEt.setText(currentDate);
     }
 
     private void updateLabel(){
@@ -241,7 +241,9 @@ public class TeleVerifOfReferActivity extends AppCompatActivity {
         telePhone2Str=telePhone2Et.getText().toString();
         teleCallingBy2Str=teleCallingBy2Et.getText().toString();
         teleConversation2Str=teleConversation2Et.getText().toString();
-        dateTime1Str=dateEt.getText().toString()+" "+timeEt.getText().toString();
+
+        String currentTime = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date());
+        dateTime1Str=dateEt.getText().toString()+" "+currentTime;
 
 
 
